@@ -10,34 +10,56 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        headline: ["Open Sans", "sans-serif"],
+        "sub-headline": ["Open Sans", "sans-serif"],
+        body: ["Open Sans", "sans-serif"],
+      },
+      fontSize: {
+        sm: "0.64rem",
+        tiny: "0.8rem",
+        base: "1rem",
+        lg: "1.25rem",
+        xl: "1.56rem",
+        "2xl": "1.95rem",
+        "3xl": "2.44rem",
+        "4xl": "3.05rem",
+        "5xl": "3.81rem",
+        "6xl": "4.77rem",
+        "7xl": "5.96rem",
+      },
+      height: {
+        "50svh": "50svh",
+        "70svh": "70svh",
+      },
+      screens: {
+        sm: { min: "640px", max: "767px" },
+        // => @media (min-width: 640px and max-width: 767px) { ... }
+
+        md: { min: "768px", max: "1023px" },
+        // => @media (min-width: 768px and max-width: 1023px) { ... }
+
+        lg: { min: "1024px", max: "1279px" },
+        // => @media (min-width: 1024px and max-width: 1279px) { ... }
+
+        xl: { min: "1280px", max: "1535px" },
+        // => @media (min-width: 1280px and max-width: 1535px) { ... }
+
+        "2xl": { min: "1536px" },
+        // => @media (min-width: 1536px) { ... }
+      },
+      backgroundImage: {
+        "hero-banner": "url('./src/assets/banner.png')",
+        "footer-texture": "url('/img/footer-texture.png')",
+      },
       colors: {
         white: "#FFFFFF",
         black: "#000000",
-        blue: {
-          50: "#e6f1fe",
-          100: "#cce3fd",
-          200: "#99c7fb",
-          300: "#66aaf9",
-          400: "#338ef7",
-          500: "#006FEE",
-          600: "#005bc4",
-          700: "#004493",
-          800: "#002e62",
-          900: "#001731",
-        },
-        red: {
-          50: "#FEE7EF",
-          100: "#FDD0DF",
-          200: "#FAA0BF",
-          300: "#F871A0",
-          400: "#F54180",
-          500: "#F31260",
-          600: "#C20E4D",
-          700: "#920B3A",
-          800: "#610726",
-          900: "#310413",
-        },
-        // .. rest of the colors
+        primary: "#ff5836",
+        oliverGrey: "#d96f35",
+        silentSmoke: "#37302a",
+        smoke: "#5E5C58",
+        pineNeedle: "#feffff",
       },
     },
   },
