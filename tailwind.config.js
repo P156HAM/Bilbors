@@ -11,8 +11,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        headline: ["Open Sans", "sans-serif"],
-        "sub-headline": ["Open Sans", "sans-serif"],
+        headline: ["Montserrat", "sans-serif"],
+        subHeadline: ["Open Sans", "sans-serif"],
         body: ["Open Sans", "sans-serif"],
       },
       fontSize: {
@@ -33,6 +33,9 @@ export default {
         "70svh": "70svh",
       },
       screens: {
+        sd: { min: "200px", max: "639px" },
+        // => @media (min-width: 300px and max-width: 639px) { ... }
+
         sm: { min: "640px", max: "767px" },
         // => @media (min-width: 640px and max-width: 767px) { ... }
 
@@ -49,17 +52,18 @@ export default {
         // => @media (min-width: 1536px) { ... }
       },
       backgroundImage: {
-        "hero-banner": "url('./src/assets/banner.png')",
+        "hero-banner": "url('./src/assets/images/banner.png')",
         "footer-texture": "url('/img/footer-texture.png')",
       },
       colors: {
         white: "#FFFFFF",
         black: "#000000",
-        primary: "#ff5836",
-        oliverGrey: "#d96f35",
-        silentSmoke: "#37302a",
-        smoke: "#5E5C58",
-        pineNeedle: "#feffff",
+        primary1: "#009eff",
+        primary2: "#2f61e6",
+        secondary1: "#666666",
+        secondary2: "#fd7e54",
+        secondary3: "#292929",
+        secondary4: "#f0f3f7",
       },
     },
   },
