@@ -4,7 +4,7 @@ import "./navbar.css";
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   return (
-    <nav className="bg-secondary4 text-primary1">
+    <nav className="bg-secondary4 ">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between items-center py-3">
           {/* Logo and Hamburger Menu */}
@@ -32,16 +32,16 @@ function Navbar() {
                 Menu
               </span>
             </button>
-            <div className="flex  sd:hidden sm:hidden md:hidden space-x-4">
+            <div className="flex justify-end pt-2 sd:hidden sm:hidden md:hidden space-x-4">
               <a
                 href="#"
-                className="font-subHeadline align-baseline  text-primary2 hover:text-secondary2"
+                className="font-headline text-base align-baseline  text-primary2 hover:text-secondary2"
               >
                 Auctions
               </a>
               <a
                 href="#"
-                className="font-subHeadline justify-end text-primary2 hover:text-secondary2"
+                className="font-headline text-base justify-end text-primary2 hover:text-secondary2"
               >
                 Categories
               </a>
