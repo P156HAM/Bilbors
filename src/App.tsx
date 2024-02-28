@@ -1,12 +1,11 @@
-import  Navbar from "./components/navbar/navbar";
+import React from "react";
 import "./App.css";
-import Banner from "./components/banner/banner";
+import AppRoutes from "./core/router/route"; // Adjust the import path as necessary
 
 function App() {
   return (
     <div>
-      <Navbar />
-      <Banner />
+      <AppRoutes />
     </div>
   );
 }
