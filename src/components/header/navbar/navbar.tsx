@@ -87,7 +87,7 @@ function Navbar() {
         <aside
           className={`fixed inset-y-0 left-0 transform ${
             isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-          } transition-transform duration-300 ease-in-out bg-secondary4 w-full sm:w-3/4 md:w-1/2 lg:hidden`}
+          } transition-transform duration-300 ease-in-out bg-secondary4 z-50 w-full sm:w-3/4 md:w-1/2 lg:hidden`}
         >
           {/* Container for the Close Button */}
           <section className="flex justify-end">
