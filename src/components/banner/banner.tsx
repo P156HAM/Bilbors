@@ -1,6 +1,6 @@
 function Banner() {
   return (
-    <div className="flex flex-row w-screen bg-center bg-cover bg-no-repeat  bg-primary3 h-[50svh] xl:h-[70svh] 2xl:h-[70svh]  items-center gap-6 ">
+    <div className="flex flex-row w-screen bg-center bg-cover bg-no-repeat  bg-primary3 h-[50svh] xl:h-[70svh] 2xl:h-[70svh]  items-center ">
       <div className="bg-center bg-cover bg-no-repeat bg-[url('./src/assets/images/banner.png')] h-[50svh] xl:h-[70svh] 2xl:h-[70svh] w-1/2"></div>
       <div className="from-black w-1/2    flex flex-col items-center gap-6 ">
         <div className="text-start p-4">
