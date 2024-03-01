@@ -1,13 +1,12 @@
 import Banner from "../../components/banner/banner";
 import CategorySlider from "../../components/categorySlider/categorySlider";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
 import HomeGallery from "../../components/homeGallery/homeGallery";
 import { Photo } from "../../constants/types";
+import arrow from "../../assets/icons/arrow_right_fill.svg";
 
 const photos: Photo[] = [
   {
-    alt: "A beautiful landscape",
+    alt: "Bild av en liten flicka",
     title:
       "Handla unika fynd till 25% av marknadsvärdet. Bidra till en hållbar framtid.",
     callToAction: "Upptäck våra produkter",
@@ -15,19 +14,11 @@ const photos: Photo[] = [
     ctaButtonText: "Handla nu",
   },
   {
-    alt: "Modern architecture",
+    alt: "Bild av en outlish tygpåse",
     title: "Återanvänd mer, köp smartare.",
     callToAction: "Gå med i rörelsen",
     imageUrl: "./src/assets/images/gallery_img_1.png",
     ctaButtonText: "Läs mer",
-  },
-  {
-    alt: "A night cityscape",
-    title:
-      "Förnya, Återvinn, Återupplev. Gör ett miljöval. Exceptionella varor till otroliga priser.",
-    callToAction: "The city that never sleeps",
-    imageUrl: "https://via.placeholder.com/850",
-    ctaButtonText: "Explore Now",
   },
 ];
 
@@ -39,12 +30,12 @@ function Home() {
       {/* Photo Gallery */}
       <div
         className="grid grid-cols-1 md:grid-cols-2 
-      lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-4 m-2"
+      lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-4 m-2 h-auto"
       >
         <section className="h-160">
           <HomeGallery photos={photos} />
         </section>
-        <section className="flex flex-col gap-2">
+        <section className="h-160 flex flex-col gap-2">
           <article className="h-1/2 flex flex-col gap-5 justify-center  border border-secondary4">
             <h1 className="text-center text-primary2 font-headline text-xl my-2">
               Anslut dig till vår mission att omforma marknaden.
@@ -71,23 +62,28 @@ function Home() {
             </button>
           </article>
         </section>
+        <section className="h-160 grid grid-rows-3 border border-secondary4  ">
+          <article
+            className="flex flex-col justify-end items-center row-span-2 bg-cover bg-center relative"
+            style={{
+              backgroundImage: `url(./src/assets/images/gallery_img_2.png)`,
+            }}
+          >
+            <button className="flex flex-col items-center justify-center button-rounded w-16 h-16 rounded-full bg-primary2 border-5 border-secondary2 mt-10 absolute -bottom-8">
+              <img
+                className="w-10 justify-center items-center"
+                src={arrow}
+                alt=""
+              />
+            </button>
+          </article>
+          <article className="flex flex-col justify-center items-center bg-secondary2 overflow-hidden">
+            <h1 className="text-center text-primary2 font-headline text-xl my-2 w-full flex-wrap">
+              Förnya, Återvinn, Återupplev.
+            </h1>
+          </article>
+        </section>
       </div>
-
-      {/* Product Recommendations */}
-      <section className="container mx-auto mt-10">
-        <h2 className="text-2xl font-bold text-Primary-2 mb-5">
-          Recommended Products
-        </h2>
-        {/* Product cards grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {/* Replace with actual product cards */}
-          <div className="bg-ChildOfLight p-4 rounded-lg shadow">
-            <img src="path/to/product1.jpg" alt="Product Name" />
-            <h3 className="font-bold text-Secondary-3">Product Name</h3>
-            <p className="text-Secondary-1">Product Description</p>
-          </div>
-        </div>
-      </section>
     </main>
   );
 }
