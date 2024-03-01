@@ -31,6 +31,8 @@ export default {
       height: {
         "50svh": "50svh",
         "70svh": "70svh",
+        128: "32rem",
+        160: "40rem",
       },
       screens: {
         sd: { min: "200px", max: "639px" },
@@ -51,15 +53,12 @@ export default {
         "2xl": { min: "1536px" },
         // => @media (min-width: 1536px) { ... }
       },
-      backgroundImage: {
-        "hero-banner": "url('./src/assets/images/banner.png')",
-        "footer-texture": "url('/img/footer-texture.png')",
-      },
+
       colors: {
         white: "#FFFFFF",
         black: "#000000",
         primary1: "#acdeed",
-        primary2: "#2f61e6",
+        primary2: "#1753d8",
         primary3: "#001446",
         secondary1: "#666666",
         secondary2: "#fd7e54",
