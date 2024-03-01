@@ -11,22 +11,18 @@ type CategoryItem = {
 // Sample data for categories **comes from backend
 const categories: CategoryItem[] = [
   {
-    iconPath: "./src/assets/icons/heart_line.svg",
-    label: "Dagens Deals & sales",
+    iconPath: "./src/assets/icons/t_shirt_line.svg",
+    label: "kläder",
   },
-  { iconPath: "./src/assets/icons/heart_line.svg", label: "Film" },
+  { iconPath: "./src/assets/icons/heart_line.svg", label: "Hem" },
+  { iconPath: "./src/assets/icons/heart_line.svg", label: "Mat" },
+  { iconPath: "./src/assets/icons/heart_line.svg", label: "Hygien & apotek" },
   { iconPath: "./src/assets/icons/heart_line.svg", label: "Elektronik" },
-  { iconPath: "./src/assets/icons/heart_line.svg", label: "Elektronik" },
-  { iconPath: "./src/assets/icons/heart_line.svg", label: "Elektronik" },
-  { iconPath: "./src/assets/icons/heart_line.svg", label: "Elektronik" },
-  { iconPath: "./src/assets/icons/heart_line.svg", label: "Elektronik" },
-  { iconPath: "./src/assets/icons/heart_line.svg", label: "Elektronik" },
-  { iconPath: "./src/assets/icons/heart_line.svg", label: "Elektronik" },
-  { iconPath: "./src/assets/icons/heart_line.svg", label: "Elektronik" },
-  { iconPath: "./src/assets/icons/heart_line.svg", label: "Elektronik" },
-  { iconPath: "./src/assets/icons/heart_line.svg", label: "Elektronik" },
-  { iconPath: "./src/assets/icons/heart_line.svg", label: "Elektronik" },
-  { iconPath: "./src/assets/icons/heart_line.svg", label: "Elektronik" },
+  { iconPath: "./src/assets/icons/heart_line.svg", label: "Accessoarer" },
+  { iconPath: "./src/assets/icons/heart_line.svg", label: "Hobby & Fritid" },
+  { iconPath: "./src/assets/icons/hard-hat-line.svg", label: "Bygg" },
+  { iconPath: "./src/assets/icons/car_3_line.svg", label: "Fordon" },
+  { iconPath: "./src/assets/icons/auction_line.svg", label: "Auktioner" },
 ];
 
 function CategorySlider() {
@@ -38,7 +34,7 @@ function CategorySlider() {
         slidesPerView={"auto"}
         spaceBetween={82.5}
         freeMode={{ enabled: true, momentumBounceRatio: 3 }}
-        className="w-full  mx-9 pl-10 justify-center "
+        className=" px-9 pl-10 items-center "
       >
         {categories.map((category, index) => (
           <SwiperSlide
@@ -49,7 +45,7 @@ function CategorySlider() {
               <img
                 src={category.iconPath}
                 alt={category.label}
-                className="h-8 w-8"
+                className="h-11 w-11"
               />
             </div>
             <p className="text-xs text-center h-12">{category.label}</p>
