@@ -53,7 +53,24 @@ export default {
         "2xl": { min: "1536px" },
         // => @media (min-width: 1536px) { ... }
       },
-
+      keyframes: {
+        spinSlow: {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
+        },
+        yoYoAnimation: {
+          "0%, 100%": {
+            transform: "translateY(0px)",
+          },
+          "50%": {
+            transform: "translateY(360px)",
+          },
+        },
+      },
+      animation: {
+        "spin-slow": "spinSlow 10s linear infinite",
+        "yo-yo": "yoYoAnimation 10s ease-in-out infinite",
+      },
       colors: {
         white: "#FFFFFF",
         black: "#000000",
