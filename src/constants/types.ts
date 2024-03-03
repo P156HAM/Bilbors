@@ -39,3 +39,12 @@ export interface ProductItem {
   inventory: number;
   image: string;
 }
+
+export interface FilterState {
+  sort: string;
+  priceRange: {
+    min: number;
+    max: number;
+  };
+  company: string;
+}

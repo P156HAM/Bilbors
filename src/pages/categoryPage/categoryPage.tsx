@@ -4,6 +4,8 @@ import BreadcrumbComponent from "../../components/breadCrumbs/breadCrumbs";
 import { slugify } from "../../utils/slugify";
 import { Divider } from "@nextui-org/react";
 import Products from "../../components/products/products";
+import { useState } from "react";
+import FilterModal from "../../components/filter/filter";
 
 interface SubCategory {
   label: string;
@@ -22,6 +24,12 @@ const CategoryPage = () => {
     subsubcategory?: string;
   }>();
 
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false);
+  const applyFilters = (filters: any) => {
+    // Again, define a more specific type for filters
+    console.log("Applying filters:", filters);
+    // Logic to apply filters
+  };
   const currentCategory: Category = categories[category ?? ""];
 
   // Find the subcategories to render based on the current navigation depth
@@ -80,9 +88,22 @@ const CategoryPage = () => {
   return (
     <div className="p-5">
       <BreadcrumbComponent />
-      <h1 className="text-xl font-bold mb-4">
-        {displayLabel || "Category not found"}
-      </h1>
+      <section className="flex flex-row justify-between w-full mb-4">
+        <h1 className="text-xl font-bold ">
+          {displayLabel || "Category not found"}
+        </h1>
+        <button
+          className="text-secondary3 font-bold text-lg"
+          onClick={() => setIsMobileFilterOpen(true)}
+        >
+          Filter
+        </button>
+        <FilterModal
+          isMobileFilterOpen={isMobileFilterOpen}
+          setIsMobileFilterOpen={setIsMobileFilterOpen}
+          applyFilters={applyFilters}
+        />
+      </section>
 
       {renderSubcategoryButtons()}
       <Divider className="my-4" />
