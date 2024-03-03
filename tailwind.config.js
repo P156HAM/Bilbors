@@ -16,7 +16,7 @@ export default {
         body: ["Open Sans", "sans-serif"],
       },
       fontSize: {
-        sm: "0.64rem",
+        sm: "0.7rem",
         tiny: "0.8rem",
         base: "1rem",
         lg: "1.25rem",

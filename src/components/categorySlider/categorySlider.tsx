@@ -2,6 +2,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/grid";
 import { FreeMode, Grid } from "swiper/modules";
+import { Link } from "react-router-dom";
+import { slugify } from "../../utils/slugify";
 
 type CategoryItem = {
   iconPath: string;
@@ -18,8 +20,7 @@ const categories: CategoryItem[] = [
   { iconPath: "./src/assets/icons/heart_line.svg", label: "Mat" },
   { iconPath: "./src/assets/icons/heart_line.svg", label: "Hygien & apotek" },
   { iconPath: "./src/assets/icons/heart_line.svg", label: "Elektronik" },
-  { iconPath: "./src/assets/icons/heart_line.svg", label: "Accessoarer" },
-  { iconPath: "./src/assets/icons/heart_line.svg", label: "Hobby & Fritid" },
+  { iconPath: "./src/assets/icons/heart_line.svg", label: "ovrigt" },
   { iconPath: "./src/assets/icons/hard-hat-line.svg", label: "Bygg" },
   { iconPath: "./src/assets/icons/car_3_line.svg", label: "Fordon" },
   { iconPath: "./src/assets/icons/auction_line.svg", label: "Auktioner" },
@@ -41,14 +42,16 @@ function CategorySlider() {
             key={index}
             className="flex flex-col items-center justify-center p-2 w-12 h-56"
           >
-            <div className="h-24 w-24 bg-gray-200 flex items-center justify-center mb-2 focus:shadow-outline hover:border-1 hover:border-primary2">
-              <img
-                src={category.iconPath}
-                alt={category.label}
-                className="h-11 w-11"
-              />
-            </div>
-            <p className="text-xs text-center h-12">{category.label}</p>
+            <Link to={`/${slugify(category.label.toLowerCase())}`}>
+              <div className="h-24 w-24 bg-gray-200 flex items-center justify-center mb-2 focus:shadow-outline hover:border-1 hover:border-primary2">
+                <img
+                  src={category.iconPath}
+                  alt={category.label}
+                  className="h-11 w-11"
+                />
+              </div>
+              <p className="text-xs text-center h-12">{category.label}</p>
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>
