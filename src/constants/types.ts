@@ -32,11 +32,21 @@ export interface ProductItem {
   image: string;
 }
 
+export type SortType =
+  | "relevans"
+  | "högstaPris"
+  | "lägstaPris"
+  | "mestSålda"
+  | string;
 export interface FilterState {
-  sort: string;
-  priceRange: {
+  sort?: SortType;
+  priceRange?: {
     min: number;
     max: number;
   };
-  company: string;
+  company?: string;
+}
+
+export interface SortState {
+  sortType: SortType;
 }

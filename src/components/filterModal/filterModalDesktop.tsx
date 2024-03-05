@@ -4,57 +4,92 @@ import {
   Checkbox,
   CheckboxGroup,
   Divider,
-  Radio,
-  RadioGroup,
   Slider,
   SliderValue,
 } from "@nextui-org/react";
-import React, { useState } from "react";
-
-interface FilterState {
-  sort: string;
-  priceRange: {
-    min: number;
-    max: number;
-  };
-  company: string[]; // Adjusted to be an array of strings
-}
+import React, { useEffect, useState } from "react";
+import { FilterState } from "../../constants/types";
+import { useDispatch, useSelector } from "react-redux";
+import { updateFilters } from "../../redux/actions/actions";
+import { RootState } from "../../redux/store";
 
 interface FilterModalDesktopProps {
   applyFilters: (filters: any) => void;
 }
 
-function FilterModalDesktop({ applyFilters }: FilterModalDesktopProps) {
-  const fixedMinPrice = 100;
-  const [filters, setFilters] = useState<FilterState>({
-    sort: "",
-    priceRange: { min: fixedMinPrice, max: 500 },
-    company: [],
-  });
+const filterState = useSelector((state: RootState) => state.filter);
 
+useEffect(() => {
+  console.log(filterState);
+}, [filterState]);
+
+function FilterModalDesktop({ applyFilters }: FilterModalDesktopProps) {
+  const [filters, setFilters] = useState<FilterState>({
+    priceRange: { min: 100, max: 500 },
+    company: "",
+  });
+  const dispatch = useDispatch();
+  const [selectedCompanies, setSelectedCompanies] = React.useState<string[]>(
+    []
+  );
   const handlePriceChange = (value: SliderValue) => {
     if (Array.isArray(value) && value.length === 2) {
       const [min, max] = value;
       setFilters((prevFilters) => ({
         ...prevFilters,
-        priceRange: {
-          min,
-          max,
-        },
+        priceRange: { min, max },
       }));
-      // Apply filters immediately
-      applyFilters({ ...filters, priceRange: { min, max } });
+    } else if (typeof value === "number") {
+      setFilters((prevFilters) => {
+        const currentPriceRange = prevFilters.priceRange || {
+          min: 0,
+          max: 1000,
+        };
+        const isUpdatingMin = value < currentPriceRange.max;
+        return {
+          ...prevFilters,
+          priceRange: {
+            min: isUpdatingMin ? value : currentPriceRange.min,
+            max: isUpdatingMin ? currentPriceRange.max : value,
+          },
+        };
+      });
     }
+
+    handleApplyFilters();
+  };
+  const handleApplyFilters = () => {
+    dispatch(updateFilters(filters));
   };
 
-  const handleCompanyChange = (selectedCompanies: string[]) => {
+  const handleCompanyChange = (selected: string[]) => {
+    setSelectedCompanies(selected);
     setFilters((prevFilters) => ({
       ...prevFilters,
-      company: selectedCompanies,
+      company: selected.join(","),
     }));
     // Apply filters immediately
     applyFilters({ ...filters, company: selectedCompanies });
+    handleApplyFilters();
   };
+
+  const companies: string[] = [
+    "H&M",
+    "Rusta",
+    "Almondy",
+    "Gina Tricot",
+    "Kappahl",
+    "Lindex",
+    "Jysk",
+    "Jotex",
+    "Lager 157",
+    "Newport",
+    "Santa Maria",
+    "Hellman's",
+    "OLW",
+    "Paulíns",
+    "Sportshopen",
+  ];
 
   return (
     <aside className="p-1 hidden lg:flex xl:flex 2xl:flex w-6/7 flex-col">
@@ -87,15 +122,15 @@ function FilterModalDesktop({ applyFilters }: FilterModalDesktopProps) {
               className="p-0"
             >
               <CheckboxGroup
-                defaultValue={[]}
+                defaultValue={selectedCompanies}
                 onValueChange={handleCompanyChange}
                 className="p-1"
               >
-                <Checkbox value="1">Företag 1</Checkbox>
-                <Checkbox value="2">Företag 2</Checkbox>
-                <Checkbox value="3">Företag 3</Checkbox>
-                <Checkbox value="4">Företag 4</Checkbox>
-                <Checkbox value="5">Företag 5</Checkbox>
+                {companies.map((company, index) => (
+                  <Checkbox key={index} value={company}>
+                    {company}
+                  </Checkbox>
+                ))}
               </CheckboxGroup>
             </AccordionItem>
           </Accordion>

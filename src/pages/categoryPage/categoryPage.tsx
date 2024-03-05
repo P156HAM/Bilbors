@@ -2,7 +2,6 @@ import { Link, useParams } from "react-router-dom";
 import { categories } from "../../../testData";
 import BreadcrumbComponent from "../../components/breadCrumbs/breadCrumbs";
 import { slugify } from "../../utils/slugify";
-import { Divider } from "@nextui-org/react";
 import Products from "../../components/products/products";
 import { useState } from "react";
 import FilterModal from "../../components/filterModal/filterModal";
@@ -90,7 +89,7 @@ const CategoryPage = () => {
   };
 
   return (
-    <div className="py-10">
+    <div className="py-10 ">
       <section className="flex flex-col w-full mb-4 px-5">
         <BreadcrumbComponent />
         <h1 className="text-xl font-bold ">
@@ -115,13 +114,6 @@ const CategoryPage = () => {
         </button>
       </div>
 
-      <div className=" grid grid-cols-3 sd:grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4">
-        <div className="sd:hidden sm:hidden md:hidden h-full p-2">
-          <SortModalDesktop applySort={applySort} />
-          <FilterModalDesktop applyFilters={applyFilters} />
-        </div>
-        <Products />
-      </div>
       <SortModal
         isMobileSortOpen={isMobileSortOpen}
         setIsMobileSortOpen={setIsMobileSortOpen}
@@ -130,8 +122,15 @@ const CategoryPage = () => {
       <FilterModal
         isMobileFilterOpen={isMobileFilterOpen}
         setIsMobileFilterOpen={setIsMobileFilterOpen}
-        applyFilters={applyFilters}
       />
+
+      <div className=" grid grid-cols-3 sd:grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4">
+        <div className="sd:hidden sm:hidden md:hidden h-full p-2">
+          <SortModalDesktop applySort={applySort} />
+          <FilterModalDesktop applyFilters={applyFilters} />
+        </div>
+        <Products />
+      </div>
     </div>
   );
 };
