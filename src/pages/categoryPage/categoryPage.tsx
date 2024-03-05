@@ -2,10 +2,12 @@ import { Link, useParams } from "react-router-dom";
 import { categories } from "../../../testData";
 import BreadcrumbComponent from "../../components/breadCrumbs/breadCrumbs";
 import { slugify } from "../../utils/slugify";
-import { Divider } from "@nextui-org/react";
 import Products from "../../components/products/products";
 import { useState } from "react";
-import FilterModal from "../../components/filter/filter";
+import FilterModal from "../../components/filterModal/filterModal";
+import SortModal from "../../components/sortModal/sortModal";
+import SortModalDesktop from "../../components/sortModal/sortModalDesktop";
+import FilterModalDesktop from "../../components/filterModal/filterModalDesktop";
 
 interface SubCategory {
   label: string;
@@ -23,12 +25,13 @@ const CategoryPage = () => {
     subcategory?: string;
     subsubcategory?: string;
   }>();
-
+  const [isMobileSortOpen, setIsMobileSortOpen] = useState<boolean>(false);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false);
   const applyFilters = (filters: any) => {
-    // Again, define a more specific type for filters
     console.log("Applying filters:", filters);
-    // Logic to apply filters
+  };
+  const applySort = (sort: any) => {
+    console.log("Applying sort:", sort);
   };
   const currentCategory: Category = categories[category ?? ""];
 
@@ -86,29 +89,46 @@ const CategoryPage = () => {
   };
 
   return (
-    <div className="p-5">
-      <BreadcrumbComponent />
-      <section className="flex flex-row justify-between w-full mb-4">
+    <div className="py-10 ">
+      <section className="flex flex-col w-full mb-4 px-5">
+        <BreadcrumbComponent />
         <h1 className="text-xl font-bold ">
           {displayLabel || "Category not found"}
         </h1>
+        {renderSubcategoryButtons()}
+      </section>
+
+      <div className="flex flex-row justify-around w-full mb-4 divide-x lg:hidden xl:hidden 2xl:hidden">
         <button
-          className="text-secondary3 font-bold text-lg"
+          className="text-secondary3  text-base border-y-1 w-1/2 py-3 hover:bg-primary3 hover:text-secondary4"
           onClick={() => setIsMobileFilterOpen(true)}
         >
           Filter
         </button>
-        <FilterModal
-          isMobileFilterOpen={isMobileFilterOpen}
-          setIsMobileFilterOpen={setIsMobileFilterOpen}
-          applyFilters={applyFilters}
-        />
-      </section>
 
-      {renderSubcategoryButtons()}
-      <Divider className="my-4" />
-      <div className="grid grid-cols-3 sd:grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4">
-        <div className="sd:hidden sm:hidden bg-primary3 h-full p-2"></div>
+        <button
+          className="text-secondary3  text-base border-y-1 w-1/2 py-3 hover:bg-primary3 hover:text-secondary4"
+          onClick={() => setIsMobileSortOpen(true)}
+        >
+          Sortera
+        </button>
+      </div>
+
+      <SortModal
+        isMobileSortOpen={isMobileSortOpen}
+        setIsMobileSortOpen={setIsMobileSortOpen}
+        applySort={applySort}
+      />
+      <FilterModal
+        isMobileFilterOpen={isMobileFilterOpen}
+        setIsMobileFilterOpen={setIsMobileFilterOpen}
+      />
+
+      <div className=" grid grid-cols-3 sd:grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4">
+        <div className="sd:hidden sm:hidden md:hidden h-full p-2">
+          <SortModalDesktop applySort={applySort} />
+          <FilterModalDesktop applyFilters={applyFilters} />
+        </div>
         <Products />
       </div>
     </div>

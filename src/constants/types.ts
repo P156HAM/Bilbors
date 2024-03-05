@@ -5,14 +5,6 @@ export type IconsProps = {
   tailwindClass?: string;
 };
 
-export interface Product {
-  id: number;
-  title: string;
-  description: string;
-  imageUrl: string;
-  ctaText: string;
-}
-
 export interface Photo {
   alt: string;
   title: string;
@@ -40,11 +32,21 @@ export interface ProductItem {
   image: string;
 }
 
+export type SortType =
+  | "relevans"
+  | "högstaPris"
+  | "lägstaPris"
+  | "mestSålda"
+  | string;
 export interface FilterState {
-  sort: string;
-  priceRange: {
+  sort?: SortType;
+  priceRange?: {
     min: number;
     max: number;
   };
-  company: string;
+  company?: string;
+}
+
+export interface SortState {
+  sortType: SortType;
 }

@@ -10,7 +10,7 @@ const BreadcrumbComponent = () => {
   return (
     <div>
       {/* Mobile Back Button */}
-      <div className="sd:block sm:block md:hidden lg:hidden xl:hidden 2xl:hidden text-lg">
+      <div className="sd:block sm:block md:block lg:hidden xl:hidden 2xl:hidden text-lg">
         {previousPathIndex >= 0 && (
           <Link
             to={`/${pathnames.slice(0, previousPathIndex + 1).join("/")}`}
@@ -35,7 +35,7 @@ const BreadcrumbComponent = () => {
       </div>
 
       {/* Full Breadcrumb for larg devices */}
-      <div className="hidden md:block lg:block xl:block 2xl:block">
+      <div className="hidden  lg:block xl:block 2xl:block">
         <Breadcrumbs
           classNames={{
             base: "text-lg sd:text-tiny sm:text-tiny mt-2 font-bold",
