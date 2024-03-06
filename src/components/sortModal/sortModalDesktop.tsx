@@ -5,14 +5,25 @@ import {
   Radio,
   RadioGroup,
 } from "@nextui-org/react";
+import { useState } from "react";
+import { SortType } from "../../constants/types";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { sortBy } from "../../redux/actions/actions";
 
-interface SortModalDesktopProps {
-  applySort: (sortOption: string) => void;
-}
+interface SortModalDesktopProps {}
 
-function SortModalDesktop({ applySort }: SortModalDesktopProps) {
-  const handleSortChange = (sortOption: string) => {
-    applySort(sortOption);
+function SortModalDesktop({}: SortModalDesktopProps) {
+  const [sortType, setSortType] = useState<SortType>("relevans");
+  const dispatch = useDispatch();
+  const filterState = useSelector((state: RootState) => state.filter);
+  console.log(sortType);
+
+  const handleSortChange = (newSortType: SortType) => {
+    // Update the local state to reflect the new sort type
+    setSortType(newSortType);
+    // Dispatch the sortBy action with the new sort type
+    dispatch(sortBy({ sortType: newSortType }));
   };
 
   return (
@@ -26,9 +37,8 @@ function SortModalDesktop({ applySort }: SortModalDesktopProps) {
         >
           <RadioGroup
             label="Sortera efter"
-            defaultValue="relevans"
-            onValueChange={handleSortChange}
-            className=""
+            defaultValue={sortType}
+            onValueChange={(value) => handleSortChange(value as SortType)}
           >
             <Radio value="relevans">Relevans</Radio>
             <Radio value="högstaPris">Högsta pris</Radio>
@@ -37,6 +47,7 @@ function SortModalDesktop({ applySort }: SortModalDesktopProps) {
           </RadioGroup>
         </AccordionItem>
       </Accordion>
+      <Divider className="my-2" />
     </aside>
   );
 }

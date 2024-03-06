@@ -4,26 +4,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { sortBy } from "../../redux/actions/actions";
 import { SortType } from "../../constants/types";
 import { RootState } from "../../redux/store";
+import DeactiveOverlay from "../deactiveOverlay/deactiveOverlay";
 
 interface SortModalProps {
   isMobileSortOpen: boolean;
   setIsMobileSortOpen: (isOpen: boolean) => void;
-  applySort: (sortType: string) => void;
 }
 
-function SortModal({
-  isMobileSortOpen,
-  setIsMobileSortOpen,
-  applySort,
-}: SortModalProps) {
-  const [sortType, setSortType] = useState<SortType>("relevans");
+function SortModal({ isMobileSortOpen, setIsMobileSortOpen }: SortModalProps) {
+  const [sortType, setSortType] = useState<SortType>("Relevans");
   const dispatch = useDispatch();
   const filterState = useSelector((state: RootState) => state.filter);
-  console.log(sortType);
 
   const handleSortChange = () => {
     dispatch(sortBy({ sortType }));
-    applySort(sortType);
     setIsMobileSortOpen(false);
 
     console.log("hej", filterState);
@@ -44,60 +38,77 @@ function SortModal({
 
   return (
     <>
-      {isMobileSortOpen && <div className="overlay"></div>}
+      <DeactiveOverlay
+        isActive={isMobileSortOpen}
+        setIsActive={setIsMobileSortOpen}
+        autoDismiss={true}
+      />
       <aside
         className={`fixed inset-0 flex flex-col  transform ${
-          isMobileSortOpen ? "translate-y-0" : "translate-y-full"
-        } transition-transform duration-300 ease-in-out bg-secondary4 z-50 w-full lg:hidden`}
+          isMobileSortOpen ? "translate-x-0" : "translate-y-full"
+        } transition-transform duration-300 ease-in-out bg-secondary4 z-50 w-full lg:hidden xl:hidden 2xl:hidden`}
       >
-        <article className="relative flex-1 overflow-y-auto max-h-[90vh]">
-          <section className="sticky top-0 z-10 p-4 bg-secondary4 flex flex-row justify-between">
-            <h1 className=" text-headline text-lg">Sortera</h1>
-            <section className="flex justify-end">
-              {/* Close Button */}
-              <button
-                onClick={() => setIsMobileSortOpen(false)}
-                className="text-secondary3 hover:text-secondary1"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </section>
-          </section>
-
-          <RadioGroup
-            label="Sortera efter"
-            defaultValue={sortType}
-            onValueChange={setSortType}
-            className="p-4"
-          >
-            <Radio value="relevans">Relevans</Radio>
-            <Radio value="högstaPris">Högsta pris</Radio>
-            <Radio value="lägstaPris">Lägsta pris</Radio>
-            <Radio value="mestSålda">Mest sålda</Radio>
-          </RadioGroup>
-
-          <div className="fixed bottom-0 left-0 right-0 p-2 text-white   ">
-            <Divider className="my-2" />
+        {/* Header */}
+        <section className="sticky top-0 z-10 px-3 pt-3 pb-1 bg-secondary4 flex flex-row justify-between">
+          <h1 className="text-headline font-bold text-lg tracking-wide">
+            Sortera
+          </h1>
+          <section className="flex justify-end">
+            {/* Close Button */}
             <button
-              onClick={handleSortChange}
-              className="  bg-blue-500 text-white p-2 w-full"
+              onClick={() => setIsMobileSortOpen(false)}
+              className="text-secondary3 hover:text-secondary1"
             >
-              Visa produkter
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
             </button>
-          </div>
-        </article>
+          </section>
+        </section>
+        <Divider className="my-2" />
+
+        <RadioGroup
+          label={sortType}
+          defaultValue={sortType}
+          onValueChange={setSortType}
+          className="p-4 flex-1 overflow-y-auto p-4 max-h-[85vh]"
+          classNames={{
+            label: "pb-3 text-base font-bold font-subHeadline",
+          }}
+        >
+          <Radio classNames={{ label: "text-base" }} value="Relevans">
+            Relevans
+          </Radio>
+          <Radio classNames={{ label: "text-base" }} value="Högsta pris">
+            Högsta pris
+          </Radio>
+          <Radio classNames={{ label: "text-base" }} value="Lägsta pris">
+            Lägsta pris
+          </Radio>
+          <Radio classNames={{ label: "text-base" }} value="Mest sålda">
+            Mest sålda
+          </Radio>
+        </RadioGroup>
+
+        <div className="p-4 sticky bottom-0 text-white">
+          <Divider className="my-2" />
+          <button
+            onClick={handleSortChange}
+            className="  bg-blue-500 text-white p-2 w-full"
+          >
+            Visa produkter
+          </button>
+        </div>
       </aside>
     </>
   );

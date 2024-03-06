@@ -9,7 +9,7 @@ interface ProductProps {
 function Product({ item }: ProductProps) {
   return (
     <div className="relative">
-      <div className="z-30 absolute w-9 h-9 border-1 top-2 right-2 flex items-center justify-center bg-opacity-50 bg-secondary4 hover:bg-opacity-90 cursor-pointer">
+      <div className="z-30 absolute w-9 h-9 top-5 right-2 flex items-center justify-center bg-opacity-50 bg-secondary4 hover:bg-opacity-90 cursor-pointer">
         <Image
           radius="none"
           className=""

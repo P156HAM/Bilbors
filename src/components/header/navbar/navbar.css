@@ -1,13 +1,3 @@
-.cart-logo {
-  width: 24px;
-  height: 24px;
-  background-image: url("../../../assets/icons/shopping_bag.svg");
-}
-
-.cart-logo:hover {
-  background-image: url("../../../assets/icons/shopping_bag_hover.svg");
-}
-
 .favorite-logo {
   width: 24px;
   height: 24px;
@@ -20,7 +10,6 @@
 .brand-logo {
   width: 100px;
   height: 50px;
-  margin-bottom: 8px;
   background-image: url("../../../assets/icons/Logo_1_blue.svg");
   background-size: 100%;
   background-repeat: no-repeat;

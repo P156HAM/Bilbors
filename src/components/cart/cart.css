@@ -1,0 +1,9 @@
+.cart-logo {
+  width: 24px;
+  height: 24px;
+  background-image: url("../../assets/icons/shopping_bag.svg");
+}
+
+.cart-logo:hover {
+  background-image: url("../../assets/icons/shopping_bag_hover.svg");
+}
