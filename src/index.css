@@ -8,15 +8,15 @@
 
 .overlay {
   position: fixed;
+  margin: 0 !important;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.5
-  ); /* Adjust the color and opacity as needed */
-  z-index: 49; /* Ensure this is below your modal but above everything else */
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 49;
+}
+
+.custom-slider .label {
+  font-size: 1.25rem;
 }

@@ -100,16 +100,35 @@ const CategoryPage = () => {
 
       <div className="flex flex-row justify-around w-full mb-4 divide-x lg:hidden xl:hidden 2xl:hidden">
         <button
-          className="text-secondary3  text-base border-y-1 w-1/2 py-3 hover:bg-primary3 hover:text-secondary4"
+          className="flex flex-row justify-center text-secondary3 font-headline text-base border-y-1 w-1/2 py-3 hover:bg-primary3 hover:text-secondary4"
           onClick={() => setIsMobileFilterOpen(true)}
         >
+          {" "}
+          <span className="pr-2">
+            <img
+              width="22"
+              height="22"
+              src="https://img.icons8.com/ios/50/sorting-options--v1.png"
+              alt="sorting-options--v1"
+            />
+          </span>
           Filter
         </button>
 
         <button
-          className="text-secondary3  text-base border-y-1 w-1/2 py-3 hover:bg-primary3 hover:text-secondary4"
+          className="flex flex-row justify-center text-secondary3  text-base font-headline border-y-1 w-1/2 py-3 hover:bg-primary3 hover:text-secondary4"
           onClick={() => setIsMobileSortOpen(true)}
         >
+          {" "}
+          <span className="pr-2">
+            {" "}
+            <img
+              width="22"
+              height="22"
+              src="https://img.icons8.com/ios/50/generic-sorting.png"
+              alt="generic-sorting"
+            />
+          </span>
           Sortera
         </button>
       </div>
@@ -117,7 +136,6 @@ const CategoryPage = () => {
       <SortModal
         isMobileSortOpen={isMobileSortOpen}
         setIsMobileSortOpen={setIsMobileSortOpen}
-        applySort={applySort}
       />
       <FilterModal
         isMobileFilterOpen={isMobileFilterOpen}
@@ -126,8 +144,8 @@ const CategoryPage = () => {
 
       <div className=" grid grid-cols-3 sd:grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4">
         <div className="sd:hidden sm:hidden md:hidden h-full p-2">
-          <SortModalDesktop applySort={applySort} />
-          <FilterModalDesktop applyFilters={applyFilters} />
+          <SortModalDesktop />
+          <FilterModalDesktop />
         </div>
         <Products />
       </div>

@@ -33,10 +33,10 @@ export interface ProductItem {
 }
 
 export type SortType =
-  | "relevans"
-  | "högstaPris"
-  | "lägstaPris"
-  | "mestSålda"
+  | "Relevans"
+  | "Högsta pris"
+  | "Lägsta pris"
+  | "Mest sålda"
   | string;
 export interface FilterState {
   sort?: SortType;

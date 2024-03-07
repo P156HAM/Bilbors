@@ -1,5 +1,7 @@
 import { useState } from "react";
+import Cart from "../../cart/cart";
 import "./navbar.css";
+import DeactiveOverlay from "../../deactiveOverlay/deactiveOverlay";
 
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -8,17 +10,17 @@ function Navbar() {
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between items-center py-3">
           {/* Logo and Hamburger Menu */}
-          <section className="flex items-center">
+          <section className="flex items-center space-x-4 sm:space-x-0 sd:space-x-0 sm:justify-start">
             <a
               href="#"
-              className="brand-logo flex items-center sm:order-second  mr-4 sm:mr-2 sd:mr-2"
+              className="brand-logo flex items-center sm:order-second"
             ></a>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="justify-between space-x-1 flex lg:hidden xl:hidden 2xl:hidden text-primary2 hover:text-secondary2 sm:order-first sd:order-first sm:mr-2 sd:mr-2"
+              className="justify-between space-x-1 flex text-primary2 hover:text-secondary2 sm:order-first sd:order-first sm:pr-2 sd:pr-2  pt-2"
             >
               <svg
-                className="w-6 h-6 text-current"
+                className="w-7 h-7 text-current"
                 fill="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -28,22 +30,22 @@ function Navbar() {
               >
                 <path d="M4 6h16M4 12h16m-7 6h7"></path>
               </svg>
-              <span className="hidden md:flex text-primary2 hover:text-secondary2">
-                Menu
+              <span className=" font-bold font-headline align-baseline text-lg sm:hidden sd:hidden text-primary2 hover:text-secondary2">
+                Meny
               </span>
             </button>
-            <div className="flex justify-end pt-2 sd:hidden sm:hidden md:hidden space-x-4">
+            <div className="flex flex-row pt-2 sd:hidden sm:hidden md:hidden space-x-4">
               <a
                 href="#"
-                className="font-headline text-base align-baseline  text-primary2 hover:text-secondary2"
+                className="font-headline font-bold text-base text-primary2 hover:text-secondary2 pt-1"
               >
-                Auctions
+                Kategorier
               </a>
               <a
                 href="#"
-                className="font-headline text-base justify-end text-primary2 hover:text-secondary2"
+                className="font-headline font-bold text-base text-primary2 hover:text-secondary2 pt-1"
               >
-                Categories
+                Auktioner
               </a>
               {/* Add more items as needed */}
             </div>
@@ -79,15 +81,20 @@ function Navbar() {
           {/* Favorite and Cart Icons */}
           <div className="flex items-center space-x-4">
             <a href="#" className="favorite-logo"></a>
-            <a href="#" className="cart-logo"></a>
+            <Cart />
           </div>
         </div>
 
         {/* Mobile Menu */}
+        <DeactiveOverlay
+          isActive={isMobileMenuOpen}
+          setIsActive={setIsMobileMenuOpen}
+          autoDismiss={false}
+        />
         <aside
           className={`fixed inset-y-0 left-0 transform ${
             isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-          } transition-transform duration-300 ease-in-out bg-secondary4 z-50 w-full sm:w-3/4 md:w-1/2 lg:hidden`}
+          } transition-transform duration-300 ease-in-out bg-secondary4 z-50 w-full sd:w-3/4 sm:w-2/4 md:w-2/5 lg:w-2/6 xl:w-1/4 2xl:w-1/4`}
         >
           {/* Container for the Close Button */}
           <section className="flex justify-end">

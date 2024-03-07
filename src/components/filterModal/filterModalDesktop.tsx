@@ -13,25 +13,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateFilters } from "../../redux/actions/actions";
 import { RootState } from "../../redux/store";
 
-interface FilterModalDesktopProps {
-  applyFilters: (filters: any) => void;
-}
+interface FilterModalDesktopProps {}
 
-const filterState = useSelector((state: RootState) => state.filter);
-
-useEffect(() => {
-  console.log(filterState);
-}, [filterState]);
-
-function FilterModalDesktop({ applyFilters }: FilterModalDesktopProps) {
+function FilterModalDesktop({}: FilterModalDesktopProps) {
   const [filters, setFilters] = useState<FilterState>({
     priceRange: { min: 100, max: 500 },
     company: "",
   });
-  const dispatch = useDispatch();
+
   const [selectedCompanies, setSelectedCompanies] = React.useState<string[]>(
     []
   );
+
+  const dispatch = useDispatch();
+  const filterState = useSelector((state: RootState) => state.filter);
+
+  const handleApplyFilters = () => {
+    dispatch(updateFilters(filters));
+  };
+
+  useEffect(() => {
+    console.log(filterState);
+  }, [filterState]);
+
   const handlePriceChange = (value: SliderValue) => {
     if (Array.isArray(value) && value.length === 2) {
       const [min, max] = value;
@@ -55,11 +59,6 @@ function FilterModalDesktop({ applyFilters }: FilterModalDesktopProps) {
         };
       });
     }
-
-    handleApplyFilters();
-  };
-  const handleApplyFilters = () => {
-    dispatch(updateFilters(filters));
   };
 
   const handleCompanyChange = (selected: string[]) => {
@@ -68,8 +67,7 @@ function FilterModalDesktop({ applyFilters }: FilterModalDesktopProps) {
       ...prevFilters,
       company: selected.join(","),
     }));
-    // Apply filters immediately
-    applyFilters({ ...filters, company: selectedCompanies });
+
     handleApplyFilters();
   };
 
@@ -111,6 +109,12 @@ function FilterModalDesktop({ applyFilters }: FilterModalDesktopProps) {
             onChange={handlePriceChange}
             onChangeEnd={handlePriceChange}
           />
+          <button
+            onClick={handleApplyFilters}
+            className="  bg-blue-500 text-white p-2 w-full"
+          >
+            Spara
+          </button>
           <Divider className="my-2" />
           {/* Company Filter */}
 
