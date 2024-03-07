@@ -5,6 +5,7 @@ import { sortBy } from "../../redux/actions/actions";
 import { SortType } from "../../constants/types";
 import { RootState } from "../../redux/store";
 import DeactiveOverlay from "../deactiveOverlay/deactiveOverlay";
+import { useDynamicHeight } from "../../utils/useDynamicHeight";
 
 interface SortModalProps {
   isMobileSortOpen: boolean;
@@ -15,6 +16,7 @@ function SortModal({ isMobileSortOpen, setIsMobileSortOpen }: SortModalProps) {
   const [sortType, setSortType] = useState<SortType>("Relevans");
   const dispatch = useDispatch();
   const filterState = useSelector((state: RootState) => state.filter);
+  const dynamicHeight = useDynamicHeight(325);
 
   const handleSortChange = () => {
     dispatch(sortBy({ sortType }));
@@ -22,19 +24,6 @@ function SortModal({ isMobileSortOpen, setIsMobileSortOpen }: SortModalProps) {
 
     console.log("hej", filterState);
   };
-
-  useEffect(() => {
-    const body: HTMLElement = document.body;
-    if (isMobileSortOpen) {
-      body.classList.add("no-scroll");
-    } else {
-      body.classList.remove("no-scroll");
-    }
-
-    return () => {
-      body.classList.remove("no-scroll");
-    };
-  }, [isMobileSortOpen]);
 
   return (
     <>
@@ -45,7 +34,7 @@ function SortModal({ isMobileSortOpen, setIsMobileSortOpen }: SortModalProps) {
       />
       <aside
         className={`fixed inset-0 flex flex-col  transform ${
-          isMobileSortOpen ? "translate-x-0" : "translate-y-full"
+          isMobileSortOpen ? "translate-x-0 translate-y-40" : "translate-y-full"
         } transition-transform duration-300 ease-in-out bg-secondary4 z-50 w-full lg:hidden xl:hidden 2xl:hidden`}
       >
         {/* Header */}
@@ -81,7 +70,8 @@ function SortModal({ isMobileSortOpen, setIsMobileSortOpen }: SortModalProps) {
           label={sortType}
           defaultValue={sortType}
           onValueChange={setSortType}
-          className="p-4 flex-1 overflow-y-auto p-4 max-h-[85vh]"
+          className="p-4 flex-1 overflow-y-auto p-4"
+          style={{ maxHeight: dynamicHeight }}
           classNames={{
             label: "pb-3 text-base font-bold font-subHeadline",
           }}

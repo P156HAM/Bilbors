@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FilterState } from "../../constants/types";
+import { useDynamicHeight } from "../../utils/useDynamicHeight";
 import {
   Accordion,
   AccordionItem,
@@ -31,6 +31,7 @@ function FilterModal({
 
   const filterState = useSelector((state: RootState) => state.filter);
   const { min, max } = filterState.priceRange || { min: 0, max: 1000 };
+  const dynamicHeight = useDynamicHeight(325);
 
   const handleApplyFilters = () => {
     const newFilters = {
@@ -105,7 +106,9 @@ function FilterModal({
       />
       <aside
         className={`fixed inset-0 flex flex-col  transform ${
-          isMobileFilterOpen ? "translate-x-0" : "translate-y-full"
+          isMobileFilterOpen
+            ? "translate-x-0 translate-y-40"
+            : "translate-y-full"
         } transition-transform duration-300 ease-in-out bg-secondary4 z-50 w-full lg:hidden xl:hidden 2xl:hidden`}
       >
         {/* Header */}
@@ -137,7 +140,10 @@ function FilterModal({
 
         <Divider className="my-4" />
         {/* Filter content */}
-        <section className="flex-1 overflow-y-auto p-4 max-h-[80vh]">
+        <section
+          className="flex-1 overflow-y-auto p-4"
+          style={{ maxHeight: dynamicHeight }}
+        >
           <Slider
             label="Pris"
             step={1}
