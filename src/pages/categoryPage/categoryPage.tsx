@@ -79,7 +79,7 @@ const CategoryPage = () => {
           <Link
             key={key}
             to={constructLinkPath(key)}
-            className="bg-secondary1 hover:bg-blue-700 text-secondary4 font-bold py-2 px-4 "
+            className="bg-secondary3 text-secondary1 font-bold hover:bg-gray-400 hover:text-white py-2 px-4 "
           >
             <button>{subCat.label}</button>
           </Link>
@@ -92,7 +92,7 @@ const CategoryPage = () => {
     <div className="py-10 ">
       <section className="flex flex-col w-full mb-4 px-5">
         <BreadcrumbComponent />
-        <h1 className="text-xl font-bold ">
+        <h1 className="text-xl font-bold text-secondary1 py-2">
           {displayLabel || "Category not found"}
         </h1>
         {renderSubcategoryButtons()}
@@ -100,7 +100,7 @@ const CategoryPage = () => {
 
       <div className="flex flex-row justify-around w-full mb-4 divide-x lg:hidden xl:hidden 2xl:hidden">
         <button
-          className="flex flex-row justify-center text-secondary3 font-headline text-base border-y-1 w-1/2 py-3 hover:bg-primary3 hover:text-secondary4"
+          className="flex flex-row justify-center text-primary3 font-headline text-base border-y-1 w-1/2 py-3 hover:bg-secondary3 hover:text-primary3"
           onClick={() => setIsMobileFilterOpen(true)}
         >
           {" "}
@@ -116,7 +116,7 @@ const CategoryPage = () => {
         </button>
 
         <button
-          className="flex flex-row justify-center text-secondary3  text-base font-headline border-y-1 w-1/2 py-3 hover:bg-primary3 hover:text-secondary4"
+          className="flex flex-row justify-center text-primary3 text-base font-headline border-y-1 w-1/2 py-3 hover:bg-secondary3 hover:text-primary3"
           onClick={() => setIsMobileSortOpen(true)}
         >
           {" "}

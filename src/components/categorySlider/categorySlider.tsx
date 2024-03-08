@@ -28,14 +28,14 @@ const categories: CategoryItem[] = [
 
 function CategorySlider() {
   return (
-    <div className="relative flex justify-center ">
+    <div className="relative flex justify-center">
       <Swiper
         modules={[Grid, FreeMode]}
         grid={{ rows: 1 }}
         slidesPerView={"auto"}
         spaceBetween={82.5}
         freeMode={{ enabled: true, momentumBounceRatio: 3 }}
-        className=" px-9 pl-10 items-center "
+        className="px-9 pl-10 items-center"
       >
         {categories.map((category, index) => (
           <SwiperSlide
@@ -43,7 +43,7 @@ function CategorySlider() {
             className="flex flex-col items-center justify-center p-2 w-12 h-56"
           >
             <Link to={`/${slugify(category.label.toLowerCase())}`}>
-              <div className="h-24 w-24 bg-gray-200 flex items-center justify-center mb-2 focus:shadow-outline hover:border-1 hover:border-primary2">
+              <div className="h-24 w-24 bg-secondary3 flex items-center justify-center mb-2 focus:shadow-outline hover:border-1 hover:border-primary2">
                 <img
                   src={category.iconPath}
                   alt={category.label}

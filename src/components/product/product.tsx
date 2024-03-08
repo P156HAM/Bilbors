@@ -33,7 +33,7 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
     case ProductStyle.GALLERYPRODUCT:
       return (
         <div className="relative">
-          <div className="z-30 absolute w-9 h-9 top-5 right-2 flex items-center justify-center bg-opacity-50 bg-secondary4 hover:bg-opacity-90 cursor-pointer">
+          <div className="z-30 absolute w-9 h-9 top-8 right-5 flex items-center justify-center bg-opacity-60 bg-secondary3 hover:bg-opacity-90 cursor-pointer">
             <Image
               radius="none"
               className=""
@@ -45,38 +45,47 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
           </div>
 
           <Card
-            shadow="sm"
+            shadow="none"
             fullWidth={true}
             radius="none"
             key={item.id}
-            isPressable
-            onPress={onAddToCart}
-            className=" bg-secondary4 p-2"
+            className="p-2"
+            classNames={{
+              body: "w-full object-cover h-2/3 bg-secondary3 bg-center bg-contain bg-origin-content",
+            }}
           >
-            <CardBody className=" h-2/3 relative overflow-visible p-0">
+            <CardBody className="">
               <Image
                 shadow="sm"
                 radius="none"
                 width="100%"
                 height="80%"
                 alt={item.name}
-                className="w-full object-cover h-2/3"
+                className=""
                 src={item.image}
               />
             </CardBody>
-            <CardFooter className="flex flex-col items-start p-1 pt-2">
-              <section className="flex flex-row justify-between w-full ">
-                <b className="text-primary3 font-headline sd:text-tiny">
-                  {item.name.toLocaleUpperCase()}
-                </b>
-                <p className="text-secondary2 font-bold font-headline sd:text-sm">
-                  {item.price} kr
-                </p>
-              </section>
+            <CardFooter className="flex flex-col items-start p-0 pt-2">
+              <div className="flex flex-col w-full">
+                <section className="flex flex-row justify-between w-full ">
+                  <b className="text-primary3 font-headline sd:text-tiny">
+                    {item.name.toLocaleUpperCase()}
+                  </b>
+                  <p className="text-secondary2 font-bold font-headline sd:text-sm">
+                    {item.price} kr
+                  </p>
+                </section>
 
-              <p className="text-tiny text-start sd:text-sm">
-                {item.description}
-              </p>
+                <p className="text-tiny text-start text-primary3 sd:text-sm">
+                  {item.description}
+                </p>
+              </div>
+              <button
+                className="w-full bg-secondary3 text-lg h-10 mt-2 hover:bg-gray-400 hover:text-white"
+                onClick={onAddToCart}
+              >
+                Köp
+              </button>
             </CardFooter>
           </Card>
         </div>
@@ -85,12 +94,12 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
       return (
         <div className="gallery-product py-4 flex flex-row basis-full w-full h-44">
           <img className="w-15 h-10 " src={item.image} alt={item.name} />
-          <section className="w-[75%] pl-2 h-full flex flex-col justify-between">
-            <div className="flex flex-col  w-full ">
-              <span className=" font-bold text-lg leading-3">
+          <section className="w-auto pl-2 h-full flex flex-col justify-between grow">
+            <div className="flex flex-col w-auto flex-wrap ">
+              <span className="font-semibold text-lg leading-3">
                 <a href="">Företag?</a>
               </span>
-              <span className=" font-bold text-lg ">
+              <span className="font-semibold text-lg">
                 <a href="">{item.name}</a>
               </span>
               <span className="pt-1 font-subHeadline text-tiny">
@@ -148,8 +157,8 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
               </div>
             </div>
           </section>
-          <div className="w-[25%] flex flex-col justify-between">
-            <span className="font-extrabold text-lg text-end leading-3">
+          <div className="w-auto flex flex-col justify-between">
+            <span className="font-bold text-lg text-end leading-3">
               {item.price} kr
             </span>
             <div className="pt-8">

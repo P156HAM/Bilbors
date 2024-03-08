@@ -61,10 +61,10 @@ function Cart() {
         style={{ right: isCartOpen ? "0" : "-100%" }}
         className={`fixed top-0 right-0 h-full transform ${
           isCartOpen ? "translate-x-0" : "translate-x-full"
-        } transition-transform duration-300 ease-in-out bg-secondary4 z-50 w-full sd:w-full sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w-1/5`}
+        } transition-transform duration-300 ease-in-out bg-secondary4 px-8 z-50 w-full sd:w-full sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w-1/5 overflow-y-auto`}
       >
         {/* Container for the Close Button */}
-        <section className="flex justify-between p-8">
+        <section className="flex justify-between py-8">
           <h1 className="font-headline text-xl font-bold w-full">Varukorg</h1>
           <button
             onClick={() => setIsCartOpen(!isCartOpen)}
@@ -85,18 +85,27 @@ function Cart() {
             </svg>
           </button>
         </section>
-        <article className="px-8 w-full">
+        <article className="w-full">
           {cartProduct.map((product) => (
-            <>
-              <Product
-                item={product}
-                key={product.id}
-                style={ProductStyle.CARTPRODUCT}
-              />
+            <div key={product.id}>
+              <Product item={product} style={ProductStyle.CARTPRODUCT} />
               <Divider className="my-4" />
-            </>
+            </div>
           ))}
         </article>
+        <div className="p-4 bg-gray-200">
+          <section className="w-full flex flex-row justify-between border-b-2 border-white mb-2 leading-loose">
+            <span>Frakt</span>
+            <span>frakt pris</span>
+          </section>
+          <section className="w-full flex flex-row justify-between items-center font-semibold mt-2 leading-relaxed">
+            <span>Att betala</span>
+            <span>items pris</span>
+          </section>
+        </div>
+        <button className="bg-blue-500 text-white p-2 w-full my-8">
+          Gå till kassan
+        </button>
       </aside>
     </>
   );
