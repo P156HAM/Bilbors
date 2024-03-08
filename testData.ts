@@ -1,5 +1,6 @@
 // categories.ts
 import { Categories, ProductItem } from "./src/constants/types";
+import { CartItem } from "./src/redux/reducers/cartReducers";
 
 export const categories: Categories = {
   klader: {
@@ -148,7 +149,7 @@ export const categories: Categories = {
   },
 };
 
-export const productList: ProductItem[] = [
+export const productList: CartItem[] = [
   {
     id: 1,
     category: "klader",

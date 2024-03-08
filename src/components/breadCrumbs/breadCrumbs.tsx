@@ -35,10 +35,10 @@ const BreadcrumbComponent = () => {
       </div>
 
       {/* Full Breadcrumb for larg devices */}
-      <div className="hidden  lg:block xl:block 2xl:block">
+      <div className="hidden lg:block xl:block 2xl:block">
         <Breadcrumbs
           classNames={{
-            base: "text-lg sd:text-tiny sm:text-tiny mt-2 font-bold",
+            base: "text-lg sd:text-tiny sm:text-tiny mt-2 font-semibold",
           }}
         >
           <BreadcrumbItem

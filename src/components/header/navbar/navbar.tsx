@@ -6,7 +6,7 @@ import DeactiveOverlay from "../../deactiveOverlay/deactiveOverlay";
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   return (
-    <nav className="bg-secondary4 ">
+    <nav className="bg-secondary3 ">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between items-center py-3">
           {/* Logo and Hamburger Menu */}
@@ -17,7 +17,7 @@ function Navbar() {
             ></a>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="justify-between space-x-1 flex text-primary2 hover:text-secondary2 sm:order-first sd:order-first sm:pr-2 sd:pr-2  pt-2"
+              className="justify-between space-x-1 flex text-primary2 sm:order-first sd:order-first sm:pr-2 sd:pr-2  pt-2"
             >
               <svg
                 className="w-7 h-7 text-current"
@@ -30,7 +30,7 @@ function Navbar() {
               >
                 <path d="M4 6h16M4 12h16m-7 6h7"></path>
               </svg>
-              <span className=" font-bold font-headline align-baseline text-lg sm:hidden sd:hidden text-primary2 hover:text-secondary2">
+              <span className=" font-bold font-headline align-baseline text-lg sm:hidden sd:hidden text-primary2 hover:underline">
                 Meny
               </span>
             </button>
@@ -94,14 +94,14 @@ function Navbar() {
         <aside
           className={`fixed inset-y-0 left-0 transform ${
             isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-          } transition-transform duration-300 ease-in-out bg-secondary4 z-50 w-full sd:w-3/4 sm:w-2/4 md:w-2/5 lg:w-2/6 xl:w-1/4 2xl:w-1/4`}
+          } transition-transform duration-300 ease-in-out bg-secondary3 z-50 w-full sd:w-3/4 sm:w-2/4 md:w-2/5 lg:w-2/6 xl:w-1/4 2xl:w-1/4`}
         >
           {/* Container for the Close Button */}
           <section className="flex justify-end">
             {/* Close Button */}
             <button
               onClick={() => setIsMobileMenuOpen(false)}
-              className="p-4 text-secondary3 hover:text-secondary1"
+              className="p-4 text-primary3 hover:text-secondary2"
             >
               <svg
                 className="w-6 h-6"
@@ -120,31 +120,31 @@ function Navbar() {
           </section>
           <a
             href="#"
-            className="block py-4 px-4 text-lg text-secondary3 hover:bg-secondary2"
+            className="block py-4 px-4 text-lg text-primary3 hover:bg-gray-400"
           >
             Kategorier
           </a>
           <a
             href="#"
-            className="block py-4 px-4 text-lg text-secondary3 hover:bg-secondary2"
+            className="block py-4 px-4 text-lg text-primary3 hover:bg-gray-400"
           >
             Auktioner
           </a>
           <a
             href="#"
-            className="block py-4 px-4 text-lg text-secondary3 hover:bg-secondary2"
+            className="block py-4 px-4 text-lg text-primary3 hover:bg-gray-400"
           >
             Sälja hos oss
           </a>
           <a
             href="#"
-            className="block py-4 px-4 text-lg text-secondary3 hover:bg-secondary2"
+            className="block py-4 px-4 text-lg text-primary3 hover:bg-gray-400"
           >
             Om oss
           </a>
           <a
             href="#"
-            className="block py-4 px-4 text-lg text-secondary3 hover:bg-secondary2"
+            className="block py-4 px-4 text-lg text-primary3 hover:bg-gray-400"
           >
             Kundservice
           </a>

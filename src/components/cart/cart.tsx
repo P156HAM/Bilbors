@@ -3,12 +3,26 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import DeactiveOverlay from "../deactiveOverlay/deactiveOverlay";
 import "./cart.css";
+import { CartItem } from "../../redux/reducers/cartReducers";
+import Product, { ProductStyle } from "../product/product";
+import { Divider } from "@nextui-org/react";
 
 function Cart() {
   const cartState = useSelector((state: RootState) => state.cart);
   const count: number = cartState.productList.length;
   const [isAnimating, setIsAnimating] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartProduct, setCartProduct] = React.useState<CartItem[]>(
+    cartState.productList
+  );
+
+  useEffect(() => {
+    setCartProduct(cartState.productList);
+  }, [cartState.productList]);
+
+  useEffect(() => {
+    console.log(cartProduct);
+  }, [cartProduct]);
 
   useEffect(() => {
     setIsAnimating(true);
@@ -47,14 +61,14 @@ function Cart() {
         style={{ right: isCartOpen ? "0" : "-100%" }}
         className={`fixed top-0 right-0 h-full transform ${
           isCartOpen ? "translate-x-0" : "translate-x-full"
-        } transition-transform duration-300 ease-in-out bg-secondary4 z-50 w-full sd:w-5/6 sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w-1/5`}
+        } transition-transform duration-300 ease-in-out bg-secondary4 px-8 z-50 w-full sd:w-full sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w-1/5 overflow-y-auto`}
       >
         {/* Container for the Close Button */}
-        <section className="flex justify-end">
-          {/* Close Button */}
+        <section className="flex justify-between py-8">
+          <h1 className="font-headline text-xl font-bold w-full">Varukorg</h1>
           <button
             onClick={() => setIsCartOpen(!isCartOpen)}
-            className="p-4 text-secondary3 hover:text-secondary1"
+            className=" text-secondary3 hover:text-secondary1"
           >
             <svg
               className="w-6 h-6"
@@ -71,6 +85,27 @@ function Cart() {
             </svg>
           </button>
         </section>
+        <article className="w-full">
+          {cartProduct.map((product) => (
+            <div key={product.id}>
+              <Product item={product} style={ProductStyle.CARTPRODUCT} />
+              <Divider className="my-4" />
+            </div>
+          ))}
+        </article>
+        <div className="p-4 bg-gray-200">
+          <section className="w-full flex flex-row justify-between border-b-2 border-white mb-2 leading-loose">
+            <span>Frakt</span>
+            <span>frakt pris</span>
+          </section>
+          <section className="w-full flex flex-row justify-between items-center font-semibold mt-2 leading-relaxed">
+            <span>Att betala</span>
+            <span>items pris</span>
+          </section>
+        </div>
+        <button className="bg-blue-500 text-white p-2 w-full my-8">
+          Gå till kassan
+        </button>
       </aside>
     </>
   );
