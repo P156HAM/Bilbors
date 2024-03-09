@@ -174,7 +174,7 @@ function FilterModal({
                 defaultValue={selectedCompanies}
                 onValueChange={handleCompanyChange}
                 classNames={{
-                  base: "p-0 ",
+                  base: "p-0",
                   wrapper: "p-1",
                   label: "p-0",
                 }}

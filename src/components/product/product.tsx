@@ -2,6 +2,7 @@ import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
 import heart from "../../assets/icons/heart_line.svg";
 import { CartItem } from "../../redux/reducers/cartReducers";
 import { ProductItem } from "../../constants/types";
+import { useNavigate } from "react-router-dom";
 
 export enum ProductStyle {
   GALLERYPRODUCT = "GALLERYPRODUCT",
@@ -18,6 +19,22 @@ interface ProductProps {
   handleAddProduct?: (product: CartItem) => void;
 }
 function Product({ item, handleAddProduct, style }: ProductProps) {
+  const navigate = useNavigate();
+
+  const createSlug = (productName: string) => {
+    return productName
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  };
+
+  const navigateProduct = (product: ProductItem) => {
+    const category = product.category;
+    const productSlug = createSlug(product.name);
+    const url = `/${category}/product/${productSlug}`;
+    navigate(url);
+  };
+
   const onAddToCart = () => {
     if (handleAddProduct) {
       const cartItem: CartItem = {
@@ -32,7 +49,7 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
   switch (style) {
     case ProductStyle.GALLERYPRODUCT:
       return (
-        <div className="relative">
+        <div className="relative p-2">
           <div className="z-30 absolute w-9 h-9 top-8 right-5 flex items-center justify-center bg-opacity-60 bg-secondary3 hover:bg-opacity-90 cursor-pointer">
             <Image
               radius="none"
@@ -49,7 +66,9 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
             fullWidth={true}
             radius="none"
             key={item.id}
-            className="p-2"
+            isPressable
+            onPress={() => navigateProduct(item)}
+            className=""
             classNames={{
               body: "w-full object-cover h-2/3 bg-secondary3 bg-center bg-contain bg-origin-content",
             }}
@@ -80,14 +99,14 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
                   {item.description}
                 </p>
               </div>
-              <button
-                className="w-full bg-secondary3 text-lg h-10 mt-2 hover:bg-gray-400 hover:text-white"
-                onClick={onAddToCart}
-              >
-                Köp
-              </button>
             </CardFooter>
           </Card>
+          <button
+            className="w-full bg-secondary3 text-lg h-10 mt-2 hover:bg-gray-400 hover:text-white"
+            onClick={onAddToCart}
+          >
+            Köp
+          </button>
         </div>
       );
     case ProductStyle.CARTPRODUCT:

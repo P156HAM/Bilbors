@@ -4,24 +4,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "../../components/protectedRoute/protectedRoute";
 import MainLayout from "../../layouts/mainLayout";
 import Home from "../../pages/home/home";
-import { Subcategory } from "../../constants/types";
-import { categories } from "../../../testData.ts";
 import CategoryPage from "../../pages/categoryPage/categoryPage.tsx";
 import NotFoundPage from "../../pages/notFoundPage/notFoundPage.tsx";
-import { divider } from "@nextui-org/react";
-
-// function generateCategoryRoutes(
-//   categories: { [key: string]: Subcategory },
-//   basePath = "/kategori"
-// ): JSX.Element[] {
-//   return Object.entries(categories).map(([key, category]) => (
-//     <Route path={`${basePath}/${key}`} element={<CategoryPage />} key={key}>
-//       {category.subcategories
-//         ? generateCategoryRoutes(category.subcategories, `${basePath}/${key}`)
-//         : null}
-//     </Route>
-//   ));
-// }
+import ProductPage from "../../pages/productPage/productPage.tsx";
 
 function AppRoutes() {
   return (
@@ -38,8 +23,8 @@ function AppRoutes() {
               element={<CategoryPage />}
             />
             <Route
-              path="/product/:productId"
-              element={<div>product/:productId</div>}
+              path="/:category/product/:productSlug"
+              element={<ProductPage />}
             />
 
             {/* Protected routes */}
