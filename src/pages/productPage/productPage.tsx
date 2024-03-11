@@ -1,25 +1,30 @@
 import { Accordion, AccordionItem, Divider } from "@nextui-org/react";
 import photo from "../../assets/images/gallery_img_1.png";
+import "./productPage.css";
 
 function ProductPage() {
   return (
-    <main className="flex flex-col items-center py-10 mx-auto space-y-8">
-      <section className="grid grid-cols-5 grid-rows-3 w-full">
-        <img
-          src={photo}
-          alt="Blue Sound Speaker"
-          className="object-contain row-span-2 col-span-5 w-full max-h-[40rem] min-h-[25rem] bg-secondary3 sd:row-span-1"
-        />
-        <section className="flex flex-col gap-2 items-start col-span-5 px-4">
-          <div>
+    <div className="flex flex-col items-center py-10 mx-auto space-y-8 px-16 sd:px-0 sm:px-0 md:px-0">
+      <section className="grid grid-rows-[400px_minmax(100px,_1fr_1fr)] grid-cols-2 w-full">
+        <div className="flex justify-center items-center col-span-2 bg-secondary3 lg:col-span-1 xl:col-span-1 2xl:col-span-1">
+          <img
+            src={photo}
+            alt="Blue Sound Speaker "
+            className="bg-clip-content bg-origin-content bg-auto bg-no-repeat bg-center max-h-[25rem]"
+          />
+        </div>
+
+        <section className="flex flex-col gap-2 items-start px-4 col-span-3 lg:col-span-1 xl:col-span-1 2xl:col-span-1">
+          <div className="flex flex-col justify-between w-full">
             <h1 className="text-2xl font-bold text-gray-800">
               Blue Sound Speaker
             </h1>
             <h1 className="text-xl font-bold text-gray-800">lager? ...</h1>
             <div className="flex flex-row justify-between w-full">
-              <h1 className="text-xl font-bold text-gray-800 w-[50%]">
-                Pris ...
-              </h1>
+              <div className=" w-[100%]">
+                <h1 className="text-xl font-bold text-gray-800">Pris ...</h1>
+              </div>
+
               <button
                 className="w-full bg-secondary3 text-lg h-10 hover:bg-gray-400 hover:text-white w-[50%]"
                 onClick={() => {}}
@@ -97,8 +102,11 @@ function ProductPage() {
             <Divider className="my-2" />
           </div>
         </section>
-        <section className="flex flex-col items-start col-span-5">
-          <Accordion variant="splitted">
+        <section className="flex flex-col items-start col-span-3 mt-4">
+          <Accordion
+            variant="light"
+            className="accordion-wrapper bg-secondary3"
+          >
             <AccordionItem
               key="1"
               aria-label="Accordion 1"
@@ -123,7 +131,7 @@ function ProductPage() {
           </Accordion>
         </section>
       </section>
-    </main>
+    </div>
   );
 }
 
