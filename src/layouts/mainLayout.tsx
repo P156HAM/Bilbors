@@ -1,14 +1,21 @@
-// src/layouts/MainLayout.jsx
-import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "../components/header/header";
 import Footer from "../components/footer/footer";
+import SearchBar from "../components/searchBar/searchBar";
 
 function MainLayout() {
+  const location = useLocation();
+
   return (
     <>
       <Header />
-      <Outlet /> {/* This will render the child routes */}
+      {location.pathname !== "/" && (
+        <div className=" lg:hidden xl:hidden 2xl:hidden">
+          {" "}
+          <SearchBar />{" "}
+        </div>
+      )}
+      <Outlet />
       <Footer />
     </>
   );
