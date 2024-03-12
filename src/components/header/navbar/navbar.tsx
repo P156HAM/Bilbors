@@ -2,6 +2,7 @@ import { useState } from "react";
 import Cart from "../../cart/cart";
 import "./navbar.css";
 import DeactiveOverlay from "../../deactiveOverlay/deactiveOverlay";
+import SearchBar from "../../searchBar/searchBar";
 
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -53,29 +54,7 @@ function Navbar() {
 
           {/* Search Bar - Center */}
           <section className="block sd:hidden sm:hidden md:hidden flex-1 mx-10">
-            <section className="relative">
-              <input
-                type="text"
-                className="w-full py-2 pl-10 pr-4 rounded border-primary2 border-1 outline-1 bg-secondary4 text-secondary3 focus:outline-none focus:shadow-outline"
-                placeholder="Sök..."
-              />
-              <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-secondary3">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                >
-                  <title>search_line</title>
-                  <g id="search_line" fill="currentColor" fillRule="evenodd">
-                    <path
-                      fill="currentColor"
-                      d="M10.5 2a8.5 8.5 0 1 0 5.262 15.176l3.652 3.652a1 1 0 0 0 1.414-1.414l-3.652-3.652A8.5 8.5 0 0 0 10.5 2ZM4 10.5a6.5 6.5 0 1 1 13 0 6.5 6.5 0 0 1-13 0Z"
-                    />
-                  </g>
-                </svg>
-              </span>
-            </section>
+            <SearchBar />
           </section>
 
           {/* Favorite and Cart Icons */}

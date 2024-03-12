@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { categories } from "../../../testData";
 import BreadcrumbComponent from "../../components/breadCrumbs/breadCrumbs";
 import { slugify } from "../../utils/slugify";
-import Products from "../../components/products/products";
+import Products, { ProductsStyle } from "../../components/products/products";
 import { useState } from "react";
 import FilterModal from "../../components/filterModal/filterModal";
 import SortModal from "../../components/sortModal/sortModal";
@@ -147,7 +147,7 @@ const CategoryPage = () => {
           <SortModalDesktop />
           <FilterModalDesktop />
         </div>
-        <Products />
+        <Products style={ProductsStyle.GALLERYPRODUCTS} />
       </div>
     </div>
   );
