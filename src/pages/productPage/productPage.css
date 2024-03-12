@@ -1,3 +1,8 @@
+.accordion-wrapper {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
 .accordion-wrapper hr {
   background-color: #fff !important;
 }

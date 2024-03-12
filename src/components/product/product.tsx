@@ -8,6 +8,7 @@ export enum ProductStyle {
   GALLERYPRODUCT = "GALLERYPRODUCT",
   CARTPRODUCT = "CARTPRODUCT",
   PRODUCTPAGEITEM = "PRODUCTPAGEITEM",
+  PRODUCTSLIDER = "PRODUCTSLIDER",
 }
 
 interface LocalProductItem extends ProductItem {
@@ -214,6 +215,7 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
           <button onClick={onAddToCart}>Add to Cart</button>
         </div>
       );
+    case ProductStyle.PRODUCTSLIDER:
   }
 }
 
