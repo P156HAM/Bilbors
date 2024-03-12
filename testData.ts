@@ -149,7 +149,7 @@ export const categories: Categories = {
   },
 };
 
-export const productList: CartItem[] = [
+export const productList: ProductItem[] = [
   {
     id: 1,
     category: "klader",

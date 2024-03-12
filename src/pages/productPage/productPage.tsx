@@ -1,10 +1,16 @@
 import { Accordion, AccordionItem, Divider } from "@nextui-org/react";
 import photo from "../../assets/images/gallery_img_1.png";
 import "./productPage.css";
+import BreadcrumbComponent from "../../components/breadCrumbs/breadCrumbs";
+import Products, { ProductsStyle } from "../../components/products/products";
+import { productList } from "../../../testData";
 
 function ProductPage() {
   return (
-    <div className="flex flex-col items-center py-10 mx-auto space-y-8 px-16 sd:px-0 sm:px-0 md:px-0">
+    <div className="flex flex-col items-center py-10 mx-auto space-y-8 px-16 sd:px-0 sm:px-0 md:px-0 max-w-full">
+      <div className="flex flex-start w-full px-4">
+        <BreadcrumbComponent />
+      </div>
       <section className="grid grid-rows-[400px_minmax(100px,_1fr_1fr)] grid-cols-2 w-full">
         <div className="flex justify-center items-center col-span-2 bg-secondary3 lg:col-span-1 xl:col-span-1 2xl:col-span-1">
           <img
@@ -105,7 +111,7 @@ function ProductPage() {
         <section className="flex flex-col items-start col-span-3 mt-4">
           <Accordion
             variant="light"
-            className="accordion-wrapper bg-secondary3"
+            className="accordion-wrapper bg-secondary3 px-4"
           >
             <AccordionItem
               key="1"
@@ -129,6 +135,20 @@ function ProductPage() {
               xxxx
             </AccordionItem>
           </Accordion>
+        </section>
+        <section className="flex flex-col items-start col-span-3 mt-8 max-w-[100svw]">
+          <h1 className="text-3xl px-4 font-headline">Liknande produkter</h1>
+          <Products
+            style={ProductsStyle.PRODUCTRECSLIDER}
+            products={productList}
+          />
+        </section>
+        <section className="flex flex-col items-start col-span-3 mt-8 max-w-[100svw]">
+          <h1 className="text-3xl font-headline px-4">Andra har även köpt</h1>
+          <Products
+            style={ProductsStyle.PRODUCTRECSLIDER}
+            products={productList}
+          />
         </section>
       </section>
     </div>
