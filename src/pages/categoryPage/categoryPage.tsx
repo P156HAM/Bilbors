@@ -3,69 +3,78 @@ import { categories } from "../../../testData";
 import BreadcrumbComponent from "../../components/breadCrumbs/breadCrumbs";
 import { slugify } from "../../utils/slugify";
 import Products, { ProductsStyle } from "../../components/products/products";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FilterModal from "../../components/filterModal/filterModal";
 import SortModal from "../../components/sortModal/sortModal";
 import SortModalDesktop from "../../components/sortModal/sortModalDesktop";
 import FilterModalDesktop from "../../components/filterModal/filterModalDesktop";
 import { getCategory } from "../../hooks/hooks";
+import { circularProgress } from "@nextui-org/react";
 
-interface SubCategory {
-  label: string;
-  subcategories?: { [key: string]: SubCategory };
-}
+// interface SubCategory {
+//   label: string;
+//   subcategories?: { [key: string]: SubCategory };
+// }
 
-interface Category {
-  label: string;
-  subcategories?: { [key: string]: SubCategory };
-}
+// interface Category {
+//   label: string;
+//   subCategories?: { [key: string]: SubCategory };
+// }
 
 const CategoryPage = () => {
+  const [isMobileSortOpen, setIsMobileSortOpen] = useState<boolean>(false);
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false);
   const { category, subcategory, subsubcategory } = useParams<{
     category?: string;
     subcategory?: string;
     subsubcategory?: string;
   }>();
-
+  // console.log("first", category, subcategory, subsubcategory);
   const { data, loading, error } = getCategory({ category });
-  if (loading) console.log("loading..");
-  if (error) console.log("Error: ", error.message);
-  console.log(
-    "Clicked data category is calling  this fucking kahbe(GET_CATEGORY) --->",
-    data?.__typename
-  );
 
-  const [isMobileSortOpen, setIsMobileSortOpen] = useState<boolean>(false);
-  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false);
+  if (loading) {
+    return <div>HÄMTAR FITTDATA</div>;
+  }
+
+  if (error) console.log("Error: ", error.message);
+  // console.log(
+  //   "Clicked data category is calling  this fucking kahbe(GET_CATEGORY) --->",
+  //   data?.getCategory.name //! VARFÖR KLAGAR DEN?
+  // );
+
   const applyFilters = (filters: any) => {
-    console.log("Applying filters:", filters);
+    // console.log("Applying filters:", filters);
   };
   const applySort = (sort: any) => {
-    console.log("Applying sort:", sort);
+    // console.log("Applying sort:", sort);
   };
-  const currentCategory: Category = categories[category ?? ""];
+  const currentCategory = data?.getCategory;
 
   // Find the subcategories to render based on the current navigation depth
   // we need to test this with the backend data..
-  const subcategoriesToRender = subcategory
-    ? currentCategory?.subcategories?.[subcategory]?.subcategories
-    : currentCategory?.subcategories;
-  console.log("subcategoriesToRender", subcategoriesToRender);
+  const subCategoriesToRender = currentCategory
+    ? currentCategory?.subCategory?.map((el) => el.name)
+    : "No fucking subCategories found";
+  // console.log("subcategoriesToRender", subCategoriesToRender);
 
-  let displayLabel = currentCategory?.label; // this is to display the label name as a header..
+  let displayLabel = currentCategory?.name; // this is to display the label name as a header..
 
   if (subcategory) {
     // If there's a subcategory, attempt to update the label to the subcategory
     // this state handels even the nested subcategory..
-    const subCategoryLabel = subsubcategory
-      ? currentCategory?.subcategories?.[subcategory]?.subcategories?.[
-          subsubcategory
-        ].label
-      : currentCategory?.subcategories?.[subcategory]?.label;
+    const subCategoryLabel = subcategory
+      ? currentCategory?.subCategory
+          ?.filter((sub) => {
+            return sub.name === subcategory;
+          })[0]
+          .subSubCategory.map((el) => el.name)
+      : "fitta";
+
     if (subCategoryLabel) {
       displayLabel = subCategoryLabel;
     }
-    console.log(displayLabel);
+
+    console.log("displayLabel", displayLabel);
   }
 
   // A function to construct the correct link path
@@ -79,31 +88,30 @@ const CategoryPage = () => {
   };
 
   const renderSubcategoryButtons = () => {
-    if (!subcategoriesToRender) {
-      return <p>No subcategories available</p>;
+    if (!subCategoriesToRender) {
+      return <p>No subCategories available</p>;
     }
-
+    console.log(subCategoriesToRender);
     return (
       <div className="flex flex-wrap gap-2">
-        {Object.entries(subcategoriesToRender).map(([key, subCat]) => (
+        {subCategoriesToRender.map((sub) => (
           <Link
-            key={key}
-            to={constructLinkPath(key)}
+            key={sub}
+            to={constructLinkPath(sub)}
             className="bg-secondary3 text-secondary1 font-bold hover:bg-gray-400 hover:text-white py-2 px-4 "
           >
-            <button>{subCat.label}</button>
+            <button>{sub}</button>
           </Link>
         ))}
       </div>
     );
   };
-
   return (
     <div className="py-10">
       <section className="flex flex-col w-full mb-4 px-5">
         <BreadcrumbComponent />
         <h1 className="text-xl font-bold text-secondary1 py-2">
-          {displayLabel || "Category not found"}
+          "Category not found"
         </h1>
         {renderSubcategoryButtons()}
       </section>
@@ -113,7 +121,6 @@ const CategoryPage = () => {
           className="flex flex-row justify-center text-primary3 font-headline text-base border-y-1 w-1/2 py-3 hover:bg-secondary3 hover:text-primary3"
           onClick={() => setIsMobileFilterOpen(true)}
         >
-          {" "}
           <span className="pr-2">
             <img
               width="22"
@@ -129,9 +136,7 @@ const CategoryPage = () => {
           className="flex flex-row justify-center text-primary3 text-base font-headline border-y-1 w-1/2 py-3 hover:bg-secondary3 hover:text-primary3"
           onClick={() => setIsMobileSortOpen(true)}
         >
-          {" "}
           <span className="pr-2">
-            {" "}
             <img
               width="22"
               height="22"
