@@ -106,12 +106,13 @@ const CategoryPage = () => {
       </div>
     );
   };
+
   return (
     <div className="py-10">
       <section className="flex flex-col w-full mb-4 px-5">
         <BreadcrumbComponent />
         <h1 className="text-xl font-bold text-secondary1 py-2">
-          "Category not found"
+          {displayLabel}
         </h1>
         {renderSubcategoryButtons()}
       </section>
