@@ -3,10 +3,12 @@ import {
   GET_ALL_CATEGORIES,
   GET_ALL_PRODUCTS,
   GET_PRODUCTS_BY_CATEGORY,
+  GET_CATEGORY,
 } from "../core/queries/queries";
 import {
   AllCategoriesResult,
   AllProductsResult,
+  Category,
   ProductsByCategoryResult,
 } from "../constants/schema";
 
@@ -20,10 +22,22 @@ export const useAllProducts = () => {
 };
 
 // Get all categories
-
 export const getAllCategories = () => {
   const { data, loading, error } =
     useQuery<AllCategoriesResult>(GET_ALL_CATEGORIES);
+
+  return { data, loading, error };
+};
+
+// Get category
+export const getCategory = ({ category }: CategoryQueryInput) => {
+  const { data, loading, error } = useQuery<Category>(GET_CATEGORY, {
+    variables: {
+      input: {
+        category,
+      },
+    },
+  });
 
   return { data, loading, error };
 };

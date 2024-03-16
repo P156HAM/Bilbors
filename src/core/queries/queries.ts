@@ -17,6 +17,23 @@ export const GET_ALL_CATEGORIES = gql`
   }
 `;
 
+export const GET_CATEGORY = gql`
+  query GetCategory($input: CategoryQuery!) {
+    getCategory(input: $input) {
+      name
+      slug
+      subCategory {
+        name
+        slug
+        subSubCategory {
+          name
+          slug
+        }
+      }
+    }
+  }
+`;
+
 export const GET_PRODUCTS_BY_CATEGORY = gql`
   query GetProductsByCategory($input: CategoryQuery!) {
     getProductsByCategory(input: $input) {

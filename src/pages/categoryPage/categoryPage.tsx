@@ -1,18 +1,23 @@
 import { Link, useParams } from "react-router-dom";
+import { categories } from "../../../testData";
 import BreadcrumbComponent from "../../components/breadCrumbs/breadCrumbs";
 import { slugify } from "../../utils/slugify";
 import Products, { ProductsStyle } from "../../components/products/products";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import FilterModal from "../../components/filterModal/filterModal";
 import SortModal from "../../components/sortModal/sortModal";
 import SortModalDesktop from "../../components/sortModal/sortModalDesktop";
 import FilterModalDesktop from "../../components/filterModal/filterModalDesktop";
-import { getAllCategories, getProductsByCategory } from "../../hooks/hooks";
+import { getCategory } from "../../hooks/hooks";
+
+interface SubCategory {
+  label: string;
+  subcategories?: { [key: string]: SubCategory };
+}
 
 interface Category {
-  category: string;
-  subCategory: string[];
-  subSubCategory: string[];
+  label: string;
+  subcategories?: { [key: string]: SubCategory };
 }
 
 const CategoryPage = () => {
@@ -21,39 +26,48 @@ const CategoryPage = () => {
     subcategory?: string;
     subsubcategory?: string;
   }>();
+
+  const { data, loading, error } = getCategory({ category });
+  if (loading) console.log("loading..");
+  if (error) console.log("Error: ", error.message);
+  console.log(
+    "Clicked data category is calling  this fucking kahbe(GET_CATEGORY) --->",
+    data?.__typename
+  );
+
   const [isMobileSortOpen, setIsMobileSortOpen] = useState<boolean>(false);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false);
-  const {
-    data: categoriesData,
-    loading: categoriesLoading,
-    error: categoriesError,
-  } = getAllCategories();
+  const applyFilters = (filters: any) => {
+    console.log("Applying filters:", filters);
+  };
+  const applySort = (sort: any) => {
+    console.log("Applying sort:", sort);
+  };
+  const currentCategory: Category = categories[category ?? ""];
 
-  const {
-    data: productsData,
-    loading: productsLoading,
-    error: productsError,
-  } = getProductsByCategory({ category: "kläder" });
-
-  console.log(
-    "productsData",
-    productsData?.getAllProducts.products,
-    productsError
-  );
-
-  useEffect(() => {
-    // You might want to call some action here if needed.
-  }, [category, subcategory, subsubcategory]);
-
-  if (categoriesLoading || productsLoading) return <div>Loading...</div>;
-  console.log(categoriesData);
-
-  const currentCategory = categoriesData?.getAllCategories?.find(
-    (cat) => cat.slug === category
-  );
-  const subCategories = currentCategory?.subCategory || [];
   // Find the subcategories to render based on the current navigation depth
   // we need to test this with the backend data..
+  const subcategoriesToRender = subcategory
+    ? currentCategory?.subcategories?.[subcategory]?.subcategories
+    : currentCategory?.subcategories;
+  console.log("subcategoriesToRender", subcategoriesToRender);
+
+  let displayLabel = currentCategory?.label; // this is to display the label name as a header..
+
+  if (subcategory) {
+    // If there's a subcategory, attempt to update the label to the subcategory
+    // this state handels even the nested subcategory..
+    const subCategoryLabel = subsubcategory
+      ? currentCategory?.subcategories?.[subcategory]?.subcategories?.[
+          subsubcategory
+        ].label
+      : currentCategory?.subcategories?.[subcategory]?.label;
+    if (subCategoryLabel) {
+      displayLabel = subCategoryLabel;
+    }
+    console.log(displayLabel);
+  }
+
   // A function to construct the correct link path
   const constructLinkPath = (key: string) => {
     let linkPath = `/${slugify(category!)}`;
@@ -65,15 +79,19 @@ const CategoryPage = () => {
   };
 
   const renderSubcategoryButtons = () => {
+    if (!subcategoriesToRender) {
+      return <p>No subcategories available</p>;
+    }
+
     return (
       <div className="flex flex-wrap gap-2">
-        {subCategories.map((subCat, key: number) => (
+        {Object.entries(subcategoriesToRender).map(([key, subCat]) => (
           <Link
             key={key}
-            to={constructLinkPath(subCat.slug!)}
+            to={constructLinkPath(key)}
             className="bg-secondary3 text-secondary1 font-bold hover:bg-gray-400 hover:text-white py-2 px-4 "
           >
-            <button>{subCat.name}</button>
+            <button>{subCat.label}</button>
           </Link>
         ))}
       </div>
@@ -84,9 +102,9 @@ const CategoryPage = () => {
     <div className="py-10">
       <section className="flex flex-col w-full mb-4 px-5">
         <BreadcrumbComponent />
-        {/* <h1 className="text-xl font-bold text-secondary1 py-2">
+        <h1 className="text-xl font-bold text-secondary1 py-2">
           {displayLabel || "Category not found"}
-        </h1> */}
+        </h1>
         {renderSubcategoryButtons()}
       </section>
 
@@ -139,10 +157,7 @@ const CategoryPage = () => {
           <SortModalDesktop />
           <FilterModalDesktop />
         </div>
-        <Products
-          style={ProductsStyle.GALLERYPRODUCTS}
-          products={productsData?.getAllProducts.products}
-        />
+        <Products style={ProductsStyle.GALLERYPRODUCTS} />
       </div>
     </div>
   );
