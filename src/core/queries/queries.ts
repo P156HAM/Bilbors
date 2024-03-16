@@ -48,6 +48,19 @@ export const GET_PRODUCTS_BY_CATEGORY = gql`
     }
   }
 `;
+export const GET_PRODUCTS_BY_SUBCATEGORY = gql`
+  query GetProductsBySubCategory($input: CategoryAndSubCategoryQuery!) {
+    getProductsBySubCategory(input: $input) {
+      products {
+        id
+        name
+        description
+        price
+        image
+      }
+    }
+  }
+`;
 
 export const GET_ALL_PRODUCTS = gql`
   query GetAllProducts {

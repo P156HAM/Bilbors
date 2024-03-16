@@ -2,7 +2,6 @@ import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
 import heart from "../../assets/icons/heart_line.svg";
 import { CartItem } from "../../constants/types";
 import { useNavigate } from "react-router-dom";
-import { ProductType } from "../../constants/schema";
 
 export enum ProductStyle {
   GALLERYPRODUCT = "GALLERYPRODUCT",

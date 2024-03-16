@@ -1,15 +1,17 @@
 import { Link, useParams } from "react-router-dom";
-import { categories } from "../../../testData";
 import BreadcrumbComponent from "../../components/breadCrumbs/breadCrumbs";
 import { slugify } from "../../utils/slugify";
 import Products, { ProductsStyle } from "../../components/products/products";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import FilterModal from "../../components/filterModal/filterModal";
 import SortModal from "../../components/sortModal/sortModal";
 import SortModalDesktop from "../../components/sortModal/sortModalDesktop";
 import FilterModalDesktop from "../../components/filterModal/filterModalDesktop";
-import { getCategory } from "../../hooks/hooks";
-import { circularProgress } from "@nextui-org/react";
+import {
+  getCategory,
+  getProductsByCategory,
+  getProductsBySubCategory,
+} from "../../hooks/hooks";
 
 // interface SubCategory {
 //   label: string;
@@ -31,16 +33,26 @@ const CategoryPage = () => {
   }>();
   // console.log("first", category, subcategory, subsubcategory);
   const { data, loading, error } = getCategory({ category });
+  const {
+    data: products,
+    loading: productsLoading,
+    error: errorGettingProduct,
+  } = getProductsByCategory({ category });
+
+  const {
+    data: subProducts,
+    loading: subProductsLoading,
+    error: errorGettingSubProducts,
+  } = getProductsBySubCategory({ category, subCategory: subcategory });
+
+  console.log("subProducts", subProducts);
+  let productsTESTDATA;
 
   if (loading) {
     return <div>HÄMTAR FITTDATA</div>;
   }
 
   if (error) console.log("Error: ", error.message);
-  // console.log(
-  //   "Clicked data category is calling  this fucking kahbe(GET_CATEGORY) --->",
-  //   data?.getCategory.name //! VARFÖR KLAGAR DEN?
-  // );
 
   const applyFilters = (filters: any) => {
     // console.log("Applying filters:", filters);
@@ -52,22 +64,32 @@ const CategoryPage = () => {
 
   // Find the subcategories to render based on the current navigation depth
   // we need to test this with the backend data..
-  const subCategoriesToRender = currentCategory
-    ? currentCategory?.subCategory?.map((el) => el.name)
-    : "No fucking subCategories found";
-  // console.log("subcategoriesToRender", subCategoriesToRender);
+  let subCategoriesToRender;
+
+  if (category) {
+    subCategoriesToRender = currentCategory.subCategory?.map((el) => el.name);
+    productsTESTDATA = products?.getProductsByCategory?.products;
+  }
+  if (category && subcategory) {
+    subCategoriesToRender = currentCategory?.subCategory
+      ?.filter((sub) => {
+        return sub.name === subcategory;
+      })[0]
+      ?.subSubCategory?.map((el) => el.name);
+    productsTESTDATA = subProducts?.getProductsBySubCategory?.products;
+  }
 
   let displayLabel = currentCategory?.name; // this is to display the label name as a header..
+
+  console.log(subCategoriesToRender);
 
   if (subcategory) {
     // If there's a subcategory, attempt to update the label to the subcategory
     // this state handels even the nested subcategory..
     const subCategoryLabel = subcategory
-      ? currentCategory?.subCategory
-          ?.filter((sub) => {
-            return sub.name === subcategory;
-          })[0]
-          .subSubCategory.map((el) => el.name)
+      ? currentCategory?.subCategory?.filter((sub) => {
+          return sub.name === subcategory;
+        })[0].name
       : "fitta";
 
     if (subCategoryLabel) {
@@ -86,15 +108,15 @@ const CategoryPage = () => {
     linkPath += `/${slugify(key)}`;
     return linkPath;
   };
-
+  console.log("subCategoriesToRender", subCategoriesToRender);
   const renderSubcategoryButtons = () => {
     if (!subCategoriesToRender) {
       return <p>No subCategories available</p>;
     }
-    console.log(subCategoriesToRender);
+
     return (
       <div className="flex flex-wrap gap-2">
-        {subCategoriesToRender.map((sub) => (
+        {subCategoriesToRender?.map((sub) => (
           <Link
             key={sub}
             to={constructLinkPath(sub)}
@@ -163,7 +185,10 @@ const CategoryPage = () => {
           <SortModalDesktop />
           <FilterModalDesktop />
         </div>
-        <Products style={ProductsStyle.GALLERYPRODUCTS} />
+        <Products
+          style={ProductsStyle.GALLERYPRODUCTS}
+          products={productsTESTDATA}
+        />
       </div>
     </div>
   );
