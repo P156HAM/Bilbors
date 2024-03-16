@@ -1,8 +1,4 @@
-import { ProductItem as BaseProductItem } from "../../constants/types";
-
-export interface CartItem extends BaseProductItem {
-  quantity: number;
-}
+import { CartItem } from "../../constants/types";
 
 interface CartState {
   productList: CartItem[];
@@ -36,7 +32,7 @@ export default function cartReducer(
           // Item exists, update its quantity
           const updatedItems = state.productList.map((cartItem, index) =>
             index === existingItemIndex
-              ? { ...cartItem, quantity: cartItem.quantity + 1 }
+              ? { ...cartItem, quantity: (cartItem.quantity ?? 0) + 1 }
               : cartItem
           );
           return {
@@ -63,7 +59,7 @@ export default function cartReducer(
         if (existingItemIndex !== -1) {
           const updatedItems = state.productList.map((cartItem, index) =>
             index === existingItemIndex
-              ? { ...cartItem, quantity: cartItem.quantity + 1 }
+              ? { ...cartItem, quantity: (cartItem.quantity ?? 0) + 1 }
               : cartItem
           );
           return {
@@ -83,11 +79,11 @@ export default function cartReducer(
 
         if (existingItemIndex !== -1) {
           const itemToUpdate = state.productList[existingItemIndex];
-          if (itemToUpdate.quantity > 1) {
+          if (itemToUpdate.quantity && itemToUpdate.quantity > 1) {
             // Decrease the quantity
             const updatedItems = state.productList.map((cartItem, idx) =>
               idx === existingItemIndex
-                ? { ...cartItem, quantity: cartItem.quantity - 1 }
+                ? { ...cartItem, quantity: (cartItem.quantity ?? 0) - 1 }
                 : cartItem
             );
             return {

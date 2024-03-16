@@ -1,3 +1,5 @@
+import { Maybe } from "./schema";
+
 export type IconsProps = {
   stroke?: string;
   color?: string;
@@ -22,14 +24,21 @@ export interface Categories {
   [key: string]: Subcategory;
 }
 
-export interface ProductItem {
-  id: number;
-  category: string;
-  description: string;
-  price: number;
-  name: string;
-  inventory: number;
-  image: string;
+export interface CartItem {
+  __typename?: "Product";
+  id?: Maybe<string>;
+  name?: Maybe<string>;
+  description?: Maybe<string>;
+  price?: Maybe<number>;
+  inventory?: Maybe<number>;
+  image?: Maybe<string>;
+  category?: Maybe<string>;
+  subCategory?: Maybe<string>;
+  subSubCategory?: Maybe<string>;
+  section?: Maybe<string>;
+  seller?: Maybe<string>;
+  slug?: Maybe<string[]>;
+  quantity?: Maybe<number>;
 }
 
 export type SortType =

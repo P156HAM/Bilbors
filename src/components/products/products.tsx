@@ -1,9 +1,7 @@
 import { useDispatch } from "react-redux";
-import { productList } from "../../../testData";
 import { addItem } from "../../redux/actions/actions";
-import { CartItem } from "../../redux/reducers/cartReducers";
 import Product, { ProductStyle } from "../product/product";
-import { ProductItem } from "../../constants/types";
+import { CartItem } from "../../constants/types";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/grid";
@@ -13,13 +11,14 @@ import heart from "../../assets/icons/heart_line.svg";
 import { useNavigate } from "react-router-dom";
 import photo from "../../assets/images/gallery_img_1.png";
 import "./products.css";
+import { Maybe, ProductType } from "../../constants/schema";
 
 export enum ProductsStyle {
   GALLERYPRODUCTS = "GALLERYPRODUCTS",
   PRODUCTRECSLIDER = "PRODUCTRECSLIDER",
 }
 interface ProductsProps {
-  products?: ProductItem[];
+  products?: Maybe<ProductType[]>;
   style?: ProductsStyle;
 }
 
@@ -27,17 +26,9 @@ function Products({ products, style }: ProductsProps) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const createSlug = (productName: string) => {
-    return productName
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "");
-  };
-
-  const navigateProduct = (product: ProductItem) => {
+  const navigateProduct = (product: ProductType) => {
     const category = product.category;
-    const productSlug = createSlug(product.name);
-    const url = `/${category}/product/${productSlug}`;
+    const url = `/${category}/product/${product.slug}`;
     navigate(url);
   };
 
@@ -49,7 +40,7 @@ function Products({ products, style }: ProductsProps) {
     case ProductsStyle.GALLERYPRODUCTS:
       return (
         <div className="px-5 gap-2 grid grid-cols-4 sd:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 col-span-2 md:col-span-3 lg:col-span-3 xl:col-span-3 2xl:col-span-3 p-1">
-          {productList.map((product) => (
+          {products?.map((product) => (
             <Product
               item={product}
               key={product.id}
@@ -106,7 +97,7 @@ function Products({ products, style }: ProductsProps) {
                           radius="none"
                           width="100%"
                           height="80%"
-                          alt={product.name}
+                          alt={product.name!}
                           className=""
                           src={photo}
                         />
@@ -115,7 +106,7 @@ function Products({ products, style }: ProductsProps) {
                         <div className="flex flex-col w-full">
                           <section className="flex flex-row justify-between w-full ">
                             <b className="text-primary3 font-headline sd:text-tiny">
-                              {product.name.toLocaleUpperCase()}
+                              {product.name?.toLocaleUpperCase()}
                             </b>
                             <p className="text-secondary2 font-bold font-headline sd:text-sm">
                               {product.price} kr

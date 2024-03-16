@@ -4,6 +4,7 @@ import "swiper/css/grid";
 import { FreeMode, Grid } from "swiper/modules";
 import { Link } from "react-router-dom";
 import { slugify } from "../../utils/slugify";
+import { getAllCategories } from "../../hooks/hooks";
 
 type CategoryItem = {
   iconPath: string;
@@ -27,6 +28,11 @@ const categories: CategoryItem[] = [
 ];
 
 function CategorySlider() {
+  const { data, loading, error } = getAllCategories();
+  if (loading) console.log("loading..");
+  if (error) console.log("Error: ", error.message);
+
+  console.log("data response: ", data);
   return (
     <div className="relative flex justify-center">
       <Swiper
