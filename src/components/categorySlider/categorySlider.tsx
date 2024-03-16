@@ -29,8 +29,8 @@ const categories: CategoryItem[] = [
 
 function CategorySlider() {
   const { data, loading, error } = getAllCategories();
-  if (loading) console.log("loading..");
-  if (error) console.log("Error: ", error.message);
+  // if (loading) console.log("loading..");
+  // if (error) console.log("Error: ", error.message);
 
   // DATA FROM DYNAMODB
   console.log("data response getAllCategories: ", data?.getAllCategories);
@@ -49,7 +49,7 @@ function CategorySlider() {
             key={index}
             className="flex flex-col items-center justify-center p-2 w-12 h-56"
           >
-            <Link to={`/${category?.name}`}>
+            <Link to={`/${category?.slug}`}>
               <div className="h-24 w-24 bg-secondary3 flex items-center justify-center mb-2 focus:shadow-outline hover:border-1 hover:border-primary2">
                 <img
                   src={categories[0].iconPath} //! HÅRD KODAD

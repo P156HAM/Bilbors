@@ -46,7 +46,7 @@ const CategoryPage = () => {
   } = getProductsBySubCategory({ category, subCategory: subcategory });
 
   console.log("subProducts", subProducts);
-  let productsTESTDATA;
+  let productsTESTDATA = [];
 
   if (loading) {
     return <div>HÄMTAR FITTDATA</div>;
@@ -65,15 +65,15 @@ const CategoryPage = () => {
   // Find the subcategories to render based on the current navigation depth
   // we need to test this with the backend data..
   let subCategoriesToRender;
-
+  console.log("currentCategory", currentCategory);
   if (category) {
-    subCategoriesToRender = currentCategory.subCategory?.map((el) => el.name);
+    subCategoriesToRender = currentCategory.subCategory?.map((el) => el.slug);
     productsTESTDATA = products?.getProductsByCategory?.products;
   }
   if (category && subcategory) {
     subCategoriesToRender = currentCategory?.subCategory
       ?.filter((sub) => {
-        return sub.name === subcategory;
+        return sub.slug === subcategory;
       })[0]
       ?.subSubCategory?.map((el) => el.name);
     productsTESTDATA = subProducts?.getProductsBySubCategory?.products;
@@ -88,15 +88,15 @@ const CategoryPage = () => {
     // this state handels even the nested subcategory..
     const subCategoryLabel = subcategory
       ? currentCategory?.subCategory?.filter((sub) => {
-          return sub.name === subcategory;
-        })[0].name
-      : "fitta";
+          return sub.slug === subcategory;
+        })[0]?.slug
+      : "TEST";
 
     if (subCategoryLabel) {
       displayLabel = subCategoryLabel;
     }
 
-    console.log("displayLabel", displayLabel);
+    // console.log("displayLabel", displayLabel);
   }
 
   // A function to construct the correct link path
