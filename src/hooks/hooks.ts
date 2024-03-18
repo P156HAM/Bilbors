@@ -9,9 +9,8 @@ import {
 import {
   AllCategoriesResult,
   AllProductsResult,
-  Category,
+  GetCategoryResult,
   ProductsByCategoryResult,
-  ProductsBySubCategoryResult,
 } from "../constants/schema";
 
 // Get all products
@@ -33,7 +32,7 @@ export const getAllCategories = () => {
 
 // Get category
 export const getCategory = ({ category }: CategoryQueryInput) => {
-  const { data, loading, error } = useQuery<Category>(GET_CATEGORY, {
+  const { data, loading, error } = useQuery<GetCategoryResult>(GET_CATEGORY, {
     variables: {
       input: {
         category,
@@ -48,6 +47,8 @@ export const getCategory = ({ category }: CategoryQueryInput) => {
 
 interface CategoryQueryInput {
   category?: string;
+  subCategory?: string;
+  subSubCategory?: string;
 }
 
 interface QueryInput {
@@ -55,19 +56,25 @@ interface QueryInput {
   subCategory?: string;
 }
 
-export const getProductsByCategory = ({ category }: CategoryQueryInput) => {
-  const { data, loading, error } = useQuery<ProductsByCategoryResult>(
+export const getProductsByCategory = ({
+  category,
+  subCategory,
+  subSubCategory,
+}: CategoryQueryInput) => {
+  const { data, loading, error, refetch } = useQuery<ProductsByCategoryResult>(
     GET_PRODUCTS_BY_CATEGORY,
     {
       variables: {
         input: {
           category,
+          subCategory,
+          subSubCategory,
         },
       },
     }
   );
 
-  return { data, loading, error };
+  return { data, loading, error, refetch };
 };
 
 export const getProductsBySubCategory = ({

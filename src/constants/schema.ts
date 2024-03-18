@@ -24,6 +24,14 @@ export type AllCategoriesResult = {
   getAllCategories: Maybe<Category[]>;
 };
 
+export type GetCategoryResult = {
+  getCategory: Maybe<Category>;
+};
+
+export type ProductsByCategoryResult = {
+  getProductsByCategory: Maybe<ProductsByCategory>;
+};
+
 export type ProductType = {
   __typename?: "Product";
   id?: Maybe<string>;
@@ -40,7 +48,8 @@ export type ProductType = {
   slug?: Maybe<string[]>;
 };
 
-export type ProductsByCategoryResult = {
+export type ProductsByCategory = {
+  result?: Maybe<number>;
   products: Maybe<ProductType[]>;
 };
 
@@ -51,8 +60,4 @@ export type AllProductsResult = {
 
 export type SingleProductResult = {
   product?: Maybe<ProductType>;
-};
-
-export type ProductsBySubCategoryResult = {
-  products?: Maybe<ProductType[]>;
 };

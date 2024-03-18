@@ -2,57 +2,41 @@ import { Link, useParams } from "react-router-dom";
 import BreadcrumbComponent from "../../components/breadCrumbs/breadCrumbs";
 import { slugify } from "../../utils/slugify";
 import Products, { ProductsStyle } from "../../components/products/products";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FilterModal from "../../components/filterModal/filterModal";
 import SortModal from "../../components/sortModal/sortModal";
 import SortModalDesktop from "../../components/sortModal/sortModalDesktop";
 import FilterModalDesktop from "../../components/filterModal/filterModalDesktop";
-import {
-  getCategory,
-  getProductsByCategory,
-  getProductsBySubCategory,
-} from "../../hooks/hooks";
-
-// interface SubCategory {
-//   label: string;
-//   subcategories?: { [key: string]: SubCategory };
-// }
-
-// interface Category {
-//   label: string;
-//   subCategories?: { [key: string]: SubCategory };
-// }
-
+import { getCategory, getProductsByCategory } from "../../hooks/hooks";
+import { ProductType } from "../../constants/schema";
+interface urlParams {
+  category?: string;
+  subcategory?: string;
+  subsubcategory?: string;
+}
 const CategoryPage = () => {
-  const [isMobileSortOpen, setIsMobileSortOpen] = useState<boolean>(false);
-  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false);
-  const { category, subcategory, subsubcategory } = useParams<{
-    category?: string;
-    subcategory?: string;
-    subsubcategory?: string;
-  }>();
-  // console.log("first", category, subcategory, subsubcategory);
+  const [isMobileSortOpen, setIsMobileSortOpen] = useState(false);
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const { category, subcategory, subsubcategory }: urlParams = useParams();
   const { data, loading, error } = getCategory({ category });
   const {
     data: products,
-    loading: productsLoading,
-    error: errorGettingProduct,
-  } = getProductsByCategory({ category });
+    loading: productsIsLoading,
+    error: errorGettingProducts,
+    refetch,
+  } = getProductsByCategory({
+    category,
+    subCategory: subcategory,
+    subSubCategory: subsubcategory,
+  });
 
-  const {
-    data: subProducts,
-    loading: subProductsLoading,
-    error: errorGettingSubProducts,
-  } = getProductsBySubCategory({ category, subCategory: subcategory });
+  // getProductsByCategory will refetch when these variable changes. (when user clicks back and forth between category, subcategory and subsubcategory)
+  useEffect(() => {
+    refetch();
+  }, [category, subcategory, subsubcategory, refetch]);
 
-  console.log("subProducts", subProducts);
-  let productsTESTDATA = [];
-
-  if (loading) {
-    return <div>HÄMTAR FITTDATA</div>;
-  }
-
-  if (error) console.log("Error: ", error.message);
+  // displayProducts will change based on the arguments getProductsByCategory() gets.
+  let displayProducts: ProductType[] = [];
 
   const applyFilters = (filters: any) => {
     // console.log("Applying filters:", filters);
@@ -60,43 +44,45 @@ const CategoryPage = () => {
   const applySort = (sort: any) => {
     // console.log("Applying sort:", sort);
   };
+
+  // This will be the parent (category) storing data from
   const currentCategory = data?.getCategory;
 
-  // Find the subcategories to render based on the current navigation depth
-  // we need to test this with the backend data..
-  let subCategoriesToRender;
-  console.log("currentCategory", currentCategory);
+  // Display name as a header..
+  let currentName = currentCategory?.name;
+
+  const currentSubCategoryName = currentCategory?.subCategory?.filter(
+    (sub) => sub.slug === subcategory
+  )[0]?.name;
+
+  // Find the subcategories to render based on the current navigation
+  let subCategoriesToRender: string[] = [];
+
+  // if the user is on the parent category http://localhost:5173/klader
   if (category) {
-    subCategoriesToRender = currentCategory.subCategory?.map((el) => el.slug);
-    productsTESTDATA = products?.getProductsByCategory?.products;
+    // Redeclare subCategoriesToRender to parents subCategories
+    subCategoriesToRender = currentCategory?.subCategory?.map(
+      (el) => el.slug
+    ) as string[];
+
+    // Redeclare displayProducts and display the product from the current url path.
+    displayProducts = products?.getProductsByCategory
+      ?.products as ProductType[];
   }
+
+  // if the user is on the parent subCategory http://localhost:5173/klader/herr
   if (category && subcategory) {
+    // Redeclare subCategoriesToRender to render parents subCategories
     subCategoriesToRender = currentCategory?.subCategory
-      ?.filter((sub) => {
-        return sub.slug === subcategory;
-      })[0]
-      ?.subSubCategory?.map((el) => el.name);
-    productsTESTDATA = subProducts?.getProductsBySubCategory?.products;
-  }
+      ?.filter((sub) => sub.slug === subcategory)[0]
+      ?.subSubCategory?.map((subSub) => subSub.name) as string[];
 
-  let displayLabel = currentCategory?.name; // this is to display the label name as a header..
+    // Redeclare displayProducts and display the product from the current url path
+    displayProducts = products?.getProductsByCategory
+      ?.products as ProductType[];
 
-  console.log(subCategoriesToRender);
-
-  if (subcategory) {
-    // If there's a subcategory, attempt to update the label to the subcategory
-    // this state handels even the nested subcategory..
-    const subCategoryLabel = subcategory
-      ? currentCategory?.subCategory?.filter((sub) => {
-          return sub.slug === subcategory;
-        })[0]?.slug
-      : "TEST";
-
-    if (subCategoryLabel) {
-      displayLabel = subCategoryLabel;
-    }
-
-    // console.log("displayLabel", displayLabel);
+    // Redeclare the parent (category) subCategory
+    currentName = currentSubCategoryName;
   }
 
   // A function to construct the correct link path
@@ -108,7 +94,7 @@ const CategoryPage = () => {
     linkPath += `/${slugify(key)}`;
     return linkPath;
   };
-  console.log("subCategoriesToRender", subCategoriesToRender);
+
   const renderSubcategoryButtons = () => {
     if (!subCategoriesToRender) {
       return <p>No subCategories available</p>;
@@ -134,7 +120,7 @@ const CategoryPage = () => {
       <section className="flex flex-col w-full mb-4 px-5">
         <BreadcrumbComponent />
         <h1 className="text-xl font-bold text-secondary1 py-2">
-          {displayLabel}
+          {currentName}
         </h1>
         {renderSubcategoryButtons()}
       </section>
@@ -185,10 +171,14 @@ const CategoryPage = () => {
           <SortModalDesktop />
           <FilterModalDesktop />
         </div>
-        <Products
-          style={ProductsStyle.GALLERYPRODUCTS}
-          products={productsTESTDATA}
-        />
+        {productsIsLoading ? (
+          <div>Loading..........⏰</div>
+        ) : (
+          <Products
+            style={ProductsStyle.GALLERYPRODUCTS}
+            products={displayProducts}
+          />
+        )}
       </div>
     </div>
   );
