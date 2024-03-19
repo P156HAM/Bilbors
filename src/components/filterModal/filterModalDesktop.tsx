@@ -33,7 +33,7 @@ function FilterModalDesktop({}: FilterModalDesktopProps) {
   };
 
   useEffect(() => {
-    console.log(filterState);
+    // console.log(filterState);
   }, [filterState]);
 
   const handlePriceChange = (value: SliderValue) => {

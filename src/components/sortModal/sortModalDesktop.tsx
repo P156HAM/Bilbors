@@ -17,7 +17,6 @@ function SortModalDesktop({}: SortModalDesktopProps) {
   const [sortType, setSortType] = useState<SortType>("relevans");
   const dispatch = useDispatch();
   const filterState = useSelector((state: RootState) => state.filter);
-  console.log(sortType);
 
   const handleSortChange = (newSortType: SortType) => {
     // Update the local state to reflect the new sort type

@@ -7,53 +7,84 @@ import FilterModal from "../../components/filterModal/filterModal";
 import SortModal from "../../components/sortModal/sortModal";
 import SortModalDesktop from "../../components/sortModal/sortModalDesktop";
 import FilterModalDesktop from "../../components/filterModal/filterModalDesktop";
-import { getAllCategories, getProductsByCategory } from "../../hooks/hooks";
-
-interface Category {
-  category: string;
-  subCategory: string[];
-  subSubCategory: string[];
+import { getCategory, getProductsByCategory } from "../../hooks/hooks";
+import { ProductType } from "../../constants/schema";
+interface urlParams {
+  category?: string;
+  subcategory?: string;
+  subsubcategory?: string;
 }
-
 const CategoryPage = () => {
-  const { category, subcategory, subsubcategory } = useParams<{
-    category?: string;
-    subcategory?: string;
-    subsubcategory?: string;
-  }>();
-  const [isMobileSortOpen, setIsMobileSortOpen] = useState<boolean>(false);
-  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false);
+  const [isMobileSortOpen, setIsMobileSortOpen] = useState(false);
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const { category, subcategory, subsubcategory }: urlParams = useParams();
+  const { data, loading, error } = getCategory({ category });
   const {
-    data: categoriesData,
-    loading: categoriesLoading,
-    error: categoriesError,
-  } = getAllCategories();
+    data: products,
+    loading: productsIsLoading,
+    error: errorGettingProducts,
+    refetch,
+  } = getProductsByCategory({
+    category,
+    subCategory: subcategory,
+    subSubCategory: subsubcategory,
+  });
 
-  const {
-    data: productsData,
-    loading: productsLoading,
-    error: productsError,
-  } = getProductsByCategory({ category: "kläder" });
-
-  console.log(
-    "productsData",
-    productsData?.getAllProducts.products,
-    productsError
-  );
-
+  // getProductsByCategory will refetch when these variable changes. (when user clicks back and forth between category, subcategory and subsubcategory)
   useEffect(() => {
-    // You might want to call some action here if needed.
-  }, [category, subcategory, subsubcategory]);
+    refetch();
+  }, [category, subcategory, subsubcategory, refetch]);
 
-  if (categoriesLoading || productsLoading) return <div>Loading...</div>;
-  console.log(categoriesData);
+  // displayProducts will change based on the arguments getProductsByCategory() gets.
+  let displayProducts: ProductType[] = [];
 
-  const currentCategory = categoriesData?.getAllCategories?.find(
-    (cat) => cat.slug === category
-  );
-  const subCategories = currentCategory?.subCategory || [];
-  // Find the subcategories to render based on the current navigation depth
-  // we need to test this with the backend data..
+  const applyFilters = (filters: any) => {
+    // console.log("Applying filters:", filters);
+  };
+  const applySort = (sort: any) => {
+    // console.log("Applying sort:", sort);
+  };
+
+  // This will be the parent (category) storing data from
+  const currentCategory = data?.getCategory;
+
+  // Display name as a header..
+  let currentName = currentCategory?.name;
+
+  const currentSubCategoryName = currentCategory?.subCategory?.filter(
+    (sub) => sub.slug === subcategory
+  )[0]?.name;
+
+  // Find the subcategories to render based on the current navigation
+  let subCategoriesToRender: string[] = [];
+
+  // if the user is on the parent category http://localhost:5173/klader
+  if (category) {
+    // Redeclare subCategoriesToRender to parents subCategories
+    subCategoriesToRender = currentCategory?.subCategory?.map(
+      (el) => el.slug
+    ) as string[];
+
+    // Redeclare displayProducts and display the product from the current url path.
+    displayProducts = products?.getProductsByCategory
+      ?.products as ProductType[];
+  }
+
+  // if the user is on the parent subCategory http://localhost:5173/klader/herr
+  if (category && subcategory) {
+    // Redeclare subCategoriesToRender to render parents subCategories
+    subCategoriesToRender = currentCategory?.subCategory
+      ?.filter((sub) => sub.slug === subcategory)[0]
+      ?.subSubCategory?.map((subSub) => subSub.name) as string[];
+
+    // Redeclare displayProducts and display the product from the current url path
+    displayProducts = products?.getProductsByCategory
+      ?.products as ProductType[];
+
+    // Redeclare the parent (category) subCategory
+    currentName = currentSubCategoryName;
+  }
+
   // A function to construct the correct link path
   const constructLinkPath = (key: string) => {
     let linkPath = `/${slugify(category!)}`;
@@ -65,15 +96,19 @@ const CategoryPage = () => {
   };
 
   const renderSubcategoryButtons = () => {
+    if (!subCategoriesToRender) {
+      return <p>No subCategories available</p>;
+    }
+
     return (
       <div className="flex flex-wrap gap-2">
-        {subCategories.map((subCat, key: number) => (
+        {subCategoriesToRender?.map((sub) => (
           <Link
-            key={key}
-            to={constructLinkPath(subCat.slug!)}
+            key={sub}
+            to={constructLinkPath(sub)}
             className="bg-secondary3 text-secondary1 font-bold hover:bg-gray-400 hover:text-white py-2 px-4 "
           >
-            <button>{subCat.name}</button>
+            <button>{sub}</button>
           </Link>
         ))}
       </div>
@@ -84,9 +119,9 @@ const CategoryPage = () => {
     <div className="py-10">
       <section className="flex flex-col w-full mb-4 px-5">
         <BreadcrumbComponent />
-        {/* <h1 className="text-xl font-bold text-secondary1 py-2">
-          {displayLabel || "Category not found"}
-        </h1> */}
+        <h1 className="text-xl font-bold text-secondary1 py-2">
+          {currentName}
+        </h1>
         {renderSubcategoryButtons()}
       </section>
 
@@ -95,7 +130,6 @@ const CategoryPage = () => {
           className="flex flex-row justify-center text-primary3 font-headline text-base border-y-1 w-1/2 py-3 hover:bg-secondary3 hover:text-primary3"
           onClick={() => setIsMobileFilterOpen(true)}
         >
-          {" "}
           <span className="pr-2">
             <img
               width="22"
@@ -111,9 +145,7 @@ const CategoryPage = () => {
           className="flex flex-row justify-center text-primary3 text-base font-headline border-y-1 w-1/2 py-3 hover:bg-secondary3 hover:text-primary3"
           onClick={() => setIsMobileSortOpen(true)}
         >
-          {" "}
           <span className="pr-2">
-            {" "}
             <img
               width="22"
               height="22"
@@ -139,10 +171,14 @@ const CategoryPage = () => {
           <SortModalDesktop />
           <FilterModalDesktop />
         </div>
-        <Products
-          style={ProductsStyle.GALLERYPRODUCTS}
-          products={productsData?.getAllProducts.products}
-        />
+        {productsIsLoading ? (
+          <div>Loading..........⏰</div>
+        ) : (
+          <Products
+            style={ProductsStyle.GALLERYPRODUCTS}
+            products={displayProducts}
+          />
+        )}
       </div>
     </div>
   );

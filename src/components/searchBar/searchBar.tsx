@@ -5,7 +5,6 @@ const SearchBar = () => {
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(query);
   };
 
   return (
