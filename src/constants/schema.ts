@@ -1,3 +1,4 @@
+import { CartItemSlug } from "./types";
 export type Maybe<T> = T | null;
 
 export type SubSubCategory = {
@@ -45,7 +46,11 @@ export type ProductType = {
   subSubCategory?: Maybe<string>;
   section?: Maybe<string>;
   seller?: Maybe<string>;
-  slug?: Maybe<string[]>;
+  slug?: Maybe<CartItemSlug>;
+};
+
+export type ProductDetailsByIdResult = {
+  getProduct: Maybe<ProductType>;
 };
 
 export type ProductsByCategory = {

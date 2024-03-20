@@ -44,6 +44,11 @@ export const GET_PRODUCTS_BY_CATEGORY = gql`
         description
         price
         image
+        category
+        slug {
+          name
+          category
+        }
       }
     }
   }
@@ -88,6 +93,7 @@ export const GET_PRODUCT_DETAILS_BY_ID = gql`
       inventory
       image
       category
+      seller
     }
   }
 `;

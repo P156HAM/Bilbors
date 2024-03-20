@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux";
 import { addItem } from "../../redux/actions/actions";
-import Product, { ProductStyle } from "../product/product";
 import { CartItem } from "../../constants/types";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -12,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import photo from "../../assets/images/gallery_img_1.png";
 import "./products.css";
 import { Maybe, ProductType } from "../../constants/schema";
+import CustomSwiper from "../customSwiper/customSwiper";
 
 export enum ProductsStyle {
   GALLERYPRODUCTS = "GALLERYPRODUCTS",
@@ -39,15 +39,8 @@ function Products({ products, style }: ProductsProps) {
   switch (style) {
     case ProductsStyle.GALLERYPRODUCTS:
       return (
-        <div className="px-5 gap-2 grid grid-cols-4 sd:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 col-span-2 md:col-span-3 lg:col-span-3 xl:col-span-3 2xl:col-span-3 p-1">
-          {products?.map((product) => (
-            <Product
-              item={product}
-              key={product.id}
-              style={ProductStyle.GALLERYPRODUCT}
-              handleAddProduct={handleAddProduct}
-            />
-          ))}
+        <div className="px-5 p-1 w-3/4 sd:w-full sm:w-full md:w-full">
+          <CustomSwiper products={products} itemsPerPage={24} />
         </div>
       );
     case ProductsStyle.PRODUCTRECSLIDER:

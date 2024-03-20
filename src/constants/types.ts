@@ -24,6 +24,15 @@ export interface Categories {
   [key: string]: Subcategory;
 }
 
+export interface CartItemSlug {
+  category?: Maybe<string>;
+  description?: Maybe<string>;
+  name?: Maybe<string>;
+  seller?: Maybe<string>;
+  subCategory?: Maybe<string>;
+  subSubCategory?: Maybe<string>;
+}
+
 export interface CartItem {
   __typename?: "Product";
   id?: Maybe<string>;
@@ -37,7 +46,7 @@ export interface CartItem {
   subSubCategory?: Maybe<string>;
   section?: Maybe<string>;
   seller?: Maybe<string>;
-  slug?: Maybe<string[]>;
+  slug?: Maybe<CartItemSlug>;
   quantity?: Maybe<number>;
 }
 

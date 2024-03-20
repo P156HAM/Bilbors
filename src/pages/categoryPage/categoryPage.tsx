@@ -9,16 +9,29 @@ import SortModalDesktop from "../../components/sortModal/sortModalDesktop";
 import FilterModalDesktop from "../../components/filterModal/filterModalDesktop";
 import { getCategory, getProductsByCategory } from "../../hooks/hooks";
 import { ProductType } from "../../constants/schema";
+import toast from "react-hot-toast";
+import { Skeleton } from "@nextui-org/react";
 interface urlParams {
   category?: string;
   subcategory?: string;
   subsubcategory?: string;
 }
+
 const CategoryPage = () => {
   const [isMobileSortOpen, setIsMobileSortOpen] = useState(false);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const [displayProducts, setDisplayProducts] = useState<ProductType[]>([]);
+  const [subCategoriesToRender, setSubCategoriesToRender] = useState<string[]>(
+    []
+  );
+  const [currentName, setCurrentName] = useState<string>("");
   const { category, subcategory, subsubcategory }: urlParams = useParams();
-  const { data, loading, error } = getCategory({ category });
+
+  const {
+    data: categoryData,
+    loading: categoryLoading,
+    error: categoryError,
+  } = getCategory({ category });
   const {
     data: products,
     loading: productsIsLoading,
@@ -33,10 +46,15 @@ const CategoryPage = () => {
   // getProductsByCategory will refetch when these variable changes. (when user clicks back and forth between category, subcategory and subsubcategory)
   useEffect(() => {
     refetch();
-  }, [category, subcategory, subsubcategory, refetch]);
+  }, [category, subcategory, subsubcategory]);
 
   // displayProducts will change based on the arguments getProductsByCategory() gets.
-  let displayProducts: ProductType[] = [];
+  useEffect(() => {
+    if (products) {
+      setDisplayProducts(products.getProductsByCategory?.products || []);
+    }
+    console.log("displayProducts", displayProducts);
+  }, [products]);
 
   const applyFilters = (filters: any) => {
     // console.log("Applying filters:", filters);
@@ -45,45 +63,69 @@ const CategoryPage = () => {
     // console.log("Applying sort:", sort);
   };
 
+  useEffect(() => {
+    const errorMessage = `Sorry, there was a problem fetching the data. Please try reloading the page, or contact support if the problem persists.`;
+
+    if (categoryError || errorGettingProducts) {
+      toast.error(errorMessage, {
+        duration: 12000,
+        position: "top-center",
+        style: {
+          width: "auto",
+          maxWidth: "100%",
+          border: "1px solid #D32F2F",
+          padding: "16px",
+          color: "#D32F2F",
+          backgroundColor: "#f0f3f7",
+        },
+        iconTheme: {
+          primary: "#D32F2F",
+          secondary: "#FFFFFF",
+        },
+      });
+    }
+  }, [categoryError, errorGettingProducts]);
+
   // This will be the parent (category) storing data from
-  const currentCategory = data?.getCategory;
+  useEffect(() => {
+    const currentCategory = categoryData?.getCategory;
+    let newSubCategories: string[] = [];
+    let currentName: string = "";
 
-  // Display name as a header..
-  let currentName = currentCategory?.name;
+    if (currentCategory && category && !subcategory) {
+      currentName = currentCategory.name || "";
+      newSubCategories =
+        currentCategory?.subCategory
+          ?.map((el) => el.name)
+          .filter((slug): slug is string => !!slug) || [];
+    } else if (category && subcategory) {
+      const subCategoryObject = currentCategory?.subCategory?.find(
+        (sub) => sub.slug === subcategory
+      );
+      if (subCategoryObject) {
+        console.log("subCategoryObject", subCategoryObject);
+        currentName = subCategoryObject.name || "";
+        newSubCategories =
+          subCategoryObject.subSubCategory
+            ?.map((subSub) => subSub.name)
+            .filter((slug): slug is string => !!slug) || [];
 
-  const currentSubCategoryName = currentCategory?.subCategory?.filter(
-    (sub) => sub.slug === subcategory
-  )[0]?.name;
+        if (subsubcategory) {
+          const subSubCategoryObject = subCategoryObject?.subSubCategory?.find(
+            (sub) => sub.slug === subsubcategory
+          );
+          console.log("subsubcategory", subsubcategory);
+          console.log("subSubCategoryObject", subSubCategoryObject);
+          if (subSubCategoryObject) {
+            currentName = subSubCategoryObject.name || "";
+          }
+        }
+      }
+    }
 
-  // Find the subcategories to render based on the current navigation
-  let subCategoriesToRender: string[] = [];
-
-  // if the user is on the parent category http://localhost:5173/klader
-  if (category) {
-    // Redeclare subCategoriesToRender to parents subCategories
-    subCategoriesToRender = currentCategory?.subCategory?.map(
-      (el) => el.slug
-    ) as string[];
-
-    // Redeclare displayProducts and display the product from the current url path.
-    displayProducts = products?.getProductsByCategory
-      ?.products as ProductType[];
-  }
-
-  // if the user is on the parent subCategory http://localhost:5173/klader/herr
-  if (category && subcategory) {
-    // Redeclare subCategoriesToRender to render parents subCategories
-    subCategoriesToRender = currentCategory?.subCategory
-      ?.filter((sub) => sub.slug === subcategory)[0]
-      ?.subSubCategory?.map((subSub) => subSub.name) as string[];
-
-    // Redeclare displayProducts and display the product from the current url path
-    displayProducts = products?.getProductsByCategory
-      ?.products as ProductType[];
-
-    // Redeclare the parent (category) subCategory
-    currentName = currentSubCategoryName;
-  }
+    setCurrentName(currentName);
+    setSubCategoriesToRender(newSubCategories);
+  }, [categoryData, category, subcategory, subsubcategory]);
 
   // A function to construct the correct link path
   const constructLinkPath = (key: string) => {
@@ -116,7 +158,13 @@ const CategoryPage = () => {
   };
 
   return (
-    <div className="py-10">
+    <div className="py-10 max-w-7xl mx-auto">
+      {productsIsLoading && (
+        <div
+          className="absolute top-0 left-0 w-full h-full flex justify-center items-center z-50"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+        ></div>
+      )}
       <section className="flex flex-col w-full mb-4 px-5">
         <BreadcrumbComponent />
         <h1 className="text-xl font-bold text-secondary1 py-2">
@@ -166,19 +214,16 @@ const CategoryPage = () => {
         setIsMobileFilterOpen={setIsMobileFilterOpen}
       />
 
-      <div className=" grid grid-cols-3 sd:grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4">
-        <div className="sd:hidden sm:hidden md:hidden h-full p-2">
+      <div className="flex flex-row w-full">
+        <div className="sd:hidden sm:hidden md:hidden w-1/4 h-full p-2">
           <SortModalDesktop />
           <FilterModalDesktop />
         </div>
-        {productsIsLoading ? (
-          <div>Loading..........⏰</div>
-        ) : (
-          <Products
-            style={ProductsStyle.GALLERYPRODUCTS}
-            products={displayProducts}
-          />
-        )}
+
+        <Products
+          style={ProductsStyle.GALLERYPRODUCTS}
+          products={displayProducts}
+        />
       </div>
     </div>
   );

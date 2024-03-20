@@ -3,13 +3,14 @@ import {
   GET_ALL_CATEGORIES,
   GET_ALL_PRODUCTS,
   GET_PRODUCTS_BY_CATEGORY,
-  GET_PRODUCTS_BY_SUBCATEGORY,
   GET_CATEGORY,
+  GET_PRODUCT_DETAILS_BY_ID,
 } from "../core/queries/queries";
 import {
   AllCategoriesResult,
   AllProductsResult,
   GetCategoryResult,
+  ProductDetailsByIdResult,
   ProductsByCategoryResult,
 } from "../constants/schema";
 
@@ -77,18 +78,18 @@ export const getProductsByCategory = ({
   return { data, loading, error, refetch };
 };
 
-export const getProductsBySubCategory = ({
-  category,
-  subCategory,
-}: QueryInput) => {
-  const { data, loading, error } = useQuery<ProductsBySubCategoryResult>(
-    GET_PRODUCTS_BY_SUBCATEGORY,
+interface GetProductDetailsByIdQueryInput {
+  id: string;
+}
+
+export const getProductDetailsById = ({
+  id,
+}: GetProductDetailsByIdQueryInput) => {
+  const { data, loading, error } = useQuery<ProductDetailsByIdResult>(
+    GET_PRODUCT_DETAILS_BY_ID,
     {
       variables: {
-        input: {
-          category,
-          subCategory,
-        },
+        id,
       },
     }
   );

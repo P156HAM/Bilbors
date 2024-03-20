@@ -18,9 +18,8 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
   const navigate = useNavigate();
 
   const navigateProduct = (product: CartItem) => {
-    const category = product.category;
-    const url = `/${category}/product/${product.slug}`;
-    navigate(url);
+    const url = `/${product.slug?.category}/product/${product.slug?.name}`;
+    navigate(url, { state: product.id });
   };
 
   const onAddToCart = () => {
@@ -38,7 +37,7 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
     case ProductStyle.GALLERYPRODUCT:
       return (
         <div className="relative p-2">
-          <div className="z-30 absolute w-9 h-9 top-8 right-5 flex items-center justify-center bg-opacity-60 bg-secondary3 hover:bg-opacity-90 cursor-pointer">
+          <div className="z-30 absolute w-9 h-9 top-8 right-2 flex items-center justify-center bg-opacity-60 bg-secondary3 hover:bg-opacity-90 cursor-pointer">
             <Image
               radius="none"
               className=""
@@ -58,7 +57,7 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
             onPress={() => navigateProduct(item)}
             className=""
             classNames={{
-              body: "w-full object-cover h-2/3 bg-secondary3 bg-center bg-contain bg-origin-content",
+              body: "w-full p-0",
             }}
           >
             <CardBody className="">
@@ -68,23 +67,24 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
                 width="100%"
                 height="80%"
                 alt={item.name!}
-                className=""
+                className="max-h-[366px] min-h-[366px]"
                 src={item.image!}
+                loading="lazy"
               />
             </CardBody>
             <CardFooter className="flex flex-col items-start p-0 pt-2">
               <div className="flex flex-col w-full">
                 <section className="flex flex-row justify-between w-full ">
-                  <b className="text-primary3 font-headline sd:text-tiny">
+                  <b className="text-primary3 font-headline sd:text-tiny whitespace-nowrap truncate">
                     {item.name?.toLocaleUpperCase()}
                   </b>
-                  <p className="text-secondary2 font-bold font-headline sd:text-sm">
-                    {item.price} kr
-                  </p>
                 </section>
 
-                <p className="text-tiny text-start text-primary3 sd:text-sm">
+                <p className="text-tiny text-start text-primary3 sd:text-sm whitespace-nowrap truncate">
                   {item.description}
+                </p>
+                <p className="text-secondary2 text-start font-bold font-headline sd:text-sm">
+                  {item.price} kr
                 </p>
               </div>
             </CardFooter>
