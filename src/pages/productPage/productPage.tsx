@@ -4,8 +4,31 @@ import "./productPage.css";
 import BreadcrumbComponent from "../../components/breadCrumbs/breadCrumbs";
 import Products, { ProductsStyle } from "../../components/products/products";
 import { productList } from "../../../testData";
+import { useLocation } from "react-router-dom";
+import { getProductDetailsById } from "../../hooks/hooks";
+import { ProductType } from "../../constants/schema";
+import { useEffect, useState } from "react";
 
 function ProductPage() {
+  const { state } = useLocation();
+  console.log(state);
+  const [product, setProduct] = useState<ProductType | null>(null);
+
+  const {
+    data: productData,
+    loading: productLoading,
+    error: productError,
+  } = getProductDetailsById({ id: state });
+
+  console.log("productData outside useEffect", productData);
+
+  useEffect(() => {
+    if (productData) {
+      setProduct(productData.getProduct);
+    }
+    console.log("product", product);
+  }, [productData]);
+
   return (
     <div className="flex flex-col items-center py-10 mx-auto space-y-8 px-16 sd:px-0 sm:px-0 md:px-0 max-w-full">
       <div className="flex flex-start w-full px-4">
@@ -23,12 +46,16 @@ function ProductPage() {
         <section className="flex flex-col gap-2 items-start px-4 col-span-3 lg:col-span-1 xl:col-span-1 2xl:col-span-1">
           <div className="flex flex-col justify-between w-full">
             <h1 className="text-2xl font-bold text-gray-800">
-              Blue Sound Speaker
+              {product?.name}
             </h1>
-            <h1 className="text-xl font-bold text-gray-800">lager? ...</h1>
+            <h1 className="text-xl font-bold text-gray-800">
+              {product?.inventory}
+            </h1>
             <div className="flex flex-row justify-between w-full">
               <div className=" w-[100%]">
-                <h1 className="text-xl font-bold text-gray-800">Pris ...</h1>
+                <h1 className="text-xl font-bold text-gray-800">
+                  {product?.price} kr
+                </h1>
               </div>
 
               <button
@@ -58,7 +85,7 @@ function ProductPage() {
               <h2 className="">
                 Säljs av{" "}
                 <span>
-                  <a href="">Företag?</a>
+                  <a href="">{product?.seller}</a>
                 </span>
               </h2>
             </div>

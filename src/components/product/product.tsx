@@ -1,7 +1,6 @@
 import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
 import heart from "../../assets/icons/heart_line.svg";
-import { CartItem } from "../../redux/reducers/cartReducers";
-import { ProductItem } from "../../constants/types";
+import { CartItem } from "../../constants/types";
 import { useNavigate } from "react-router-dom";
 
 export enum ProductStyle {
@@ -10,30 +9,17 @@ export enum ProductStyle {
   PRODUCTPAGEITEM = "PRODUCTPAGEITEM",
   PRODUCTSLIDER = "PRODUCTSLIDER",
 }
-
-interface LocalProductItem extends ProductItem {
-  quantity?: number; // Optional quantity property
-}
 interface ProductProps {
-  item: LocalProductItem;
+  item: CartItem;
   style: ProductStyle;
   handleAddProduct?: (product: CartItem) => void;
 }
 function Product({ item, handleAddProduct, style }: ProductProps) {
   const navigate = useNavigate();
 
-  const createSlug = (productName: string) => {
-    return productName
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "");
-  };
-
-  const navigateProduct = (product: ProductItem) => {
-    const category = product.category;
-    const productSlug = createSlug(product.name);
-    const url = `/${category}/product/${productSlug}`;
-    navigate(url);
+  const navigateProduct = (product: CartItem) => {
+    const url = `/${product.slug?.category}/product/${product.slug?.name}`;
+    navigate(url, { state: product.id });
   };
 
   const onAddToCart = () => {
@@ -51,7 +37,7 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
     case ProductStyle.GALLERYPRODUCT:
       return (
         <div className="relative p-2">
-          <div className="z-30 absolute w-9 h-9 top-8 right-5 flex items-center justify-center bg-opacity-60 bg-secondary3 hover:bg-opacity-90 cursor-pointer">
+          <div className="z-30 absolute w-9 h-9 top-8 right-2 flex items-center justify-center bg-opacity-60 bg-secondary3 hover:bg-opacity-90 cursor-pointer">
             <Image
               radius="none"
               className=""
@@ -71,7 +57,7 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
             onPress={() => navigateProduct(item)}
             className=""
             classNames={{
-              body: "w-full object-cover h-2/3 bg-secondary3 bg-center bg-contain bg-origin-content",
+              body: "w-full p-0",
             }}
           >
             <CardBody className="">
@@ -80,24 +66,25 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
                 radius="none"
                 width="100%"
                 height="80%"
-                alt={item.name}
-                className=""
-                src={item.image}
+                alt={item.name!}
+                className="max-h-[366px] min-h-[366px]"
+                src={item.image!}
+                loading="lazy"
               />
             </CardBody>
             <CardFooter className="flex flex-col items-start p-0 pt-2">
               <div className="flex flex-col w-full">
                 <section className="flex flex-row justify-between w-full ">
-                  <b className="text-primary3 font-headline sd:text-tiny">
-                    {item.name.toLocaleUpperCase()}
+                  <b className="text-primary3 font-headline sd:text-tiny whitespace-nowrap truncate">
+                    {item.name?.toLocaleUpperCase()}
                   </b>
-                  <p className="text-secondary2 font-bold font-headline sd:text-sm">
-                    {item.price} kr
-                  </p>
                 </section>
 
-                <p className="text-tiny text-start text-primary3 sd:text-sm">
+                <p className="text-tiny text-start text-primary3 sd:text-sm whitespace-nowrap truncate">
                   {item.description}
+                </p>
+                <p className="text-secondary2 text-start font-bold font-headline sd:text-sm">
+                  {item.price} kr
                 </p>
               </div>
             </CardFooter>
@@ -113,7 +100,7 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
     case ProductStyle.CARTPRODUCT:
       return (
         <div className="gallery-product py-4 flex flex-row basis-full w-full h-44">
-          <img className="w-15 h-10 " src={item.image} alt={item.name} />
+          <img className="w-15 h-10 " src={item.image!} alt={item.name!} />
           <section className="w-auto pl-2 h-full flex flex-col justify-between grow">
             <div className="flex flex-col w-auto flex-wrap ">
               <span className="font-semibold text-lg leading-3">
@@ -209,7 +196,7 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
     case ProductStyle.PRODUCTPAGEITEM:
       return (
         <div className="gallery-product">
-          <Image src={item.image} alt={item.name} />
+          <Image src={item.image!} alt={item.name!} />
           <div>{item.name}</div>
           <div>{item.price} kr</div>
           <button onClick={onAddToCart}>Add to Cart</button>

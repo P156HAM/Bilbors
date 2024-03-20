@@ -21,8 +21,6 @@ function SortModal({ isMobileSortOpen, setIsMobileSortOpen }: SortModalProps) {
   const handleSortChange = () => {
     dispatch(sortBy({ sortType }));
     setIsMobileSortOpen(false);
-
-    console.log("hej", filterState);
   };
 
   return (

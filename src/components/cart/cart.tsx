@@ -21,7 +21,7 @@ function Cart() {
   }, [cartState.productList]);
 
   useEffect(() => {
-    console.log(cartProduct);
+    // console.log(cartProduct);
   }, [cartProduct]);
 
   useEffect(() => {

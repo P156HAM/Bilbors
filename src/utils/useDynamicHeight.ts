@@ -22,7 +22,7 @@ export const useDynamicHeight = (subtractPx: number): string => {
 
     return () => window.removeEventListener("resize", updateHeight);
   }, [subtractPx]);
-  console.log(dynamicHeight);
+  // console.log(dynamicHeight);
 
   return dynamicHeight;
 };

@@ -4,6 +4,7 @@ import "swiper/css/grid";
 import { FreeMode, Grid } from "swiper/modules";
 import { Link } from "react-router-dom";
 import { slugify } from "../../utils/slugify";
+import { getAllCategories } from "../../hooks/hooks";
 
 type CategoryItem = {
   iconPath: string;
@@ -27,6 +28,12 @@ const categories: CategoryItem[] = [
 ];
 
 function CategorySlider() {
+  const { data, loading, error } = getAllCategories();
+  // if (loading) console.log("loading..");
+  // if (error) console.log("Error: ", error.message);
+
+  // DATA FROM DYNAMODB
+  console.log("data response getAllCategories: ", data?.getAllCategories);
   return (
     <div className="relative flex justify-center">
       <Swiper
@@ -37,20 +44,20 @@ function CategorySlider() {
         freeMode={{ enabled: true, momentumBounceRatio: 3 }}
         className="px-9 pl-10 items-center"
       >
-        {categories.map((category, index) => (
+        {data?.getAllCategories?.map((category, index) => (
           <SwiperSlide
             key={index}
             className="flex flex-col items-center justify-center p-2 w-12 h-56"
           >
-            <Link to={`/${slugify(category.label.toLowerCase())}`}>
+            <Link to={`/${category?.slug}`}>
               <div className="h-24 w-24 bg-secondary3 flex items-center justify-center mb-2 focus:shadow-outline hover:border-1 hover:border-primary2">
                 <img
-                  src={category.iconPath}
-                  alt={category.label}
+                  src={categories[0].iconPath} //! HÅRD KODAD
+                  alt={category.name}
                   className="h-11 w-11"
                 />
               </div>
-              <p className="text-xs text-center h-12">{category.label}</p>
+              <p className="text-xs text-center h-12">{category.name}</p>
             </Link>
           </SwiperSlide>
         ))}
