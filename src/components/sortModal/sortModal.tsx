@@ -77,13 +77,13 @@ function SortModal({ isMobileSortOpen, setIsMobileSortOpen }: SortModalProps) {
           <Radio classNames={{ label: "text-base" }} value="Relevans">
             Relevans
           </Radio>
-          <Radio classNames={{ label: "text-base" }} value="Högsta pris">
+          <Radio classNames={{ label: "text-base" }} value="Högsta Pris">
             Högsta pris
           </Radio>
-          <Radio classNames={{ label: "text-base" }} value="Lägsta pris">
+          <Radio classNames={{ label: "text-base" }} value="Lägsta Pris">
             Lägsta pris
           </Radio>
-          <Radio classNames={{ label: "text-base" }} value="Mest sålda">
+          <Radio classNames={{ label: "text-base" }} value="Mest Sålda">
             Mest sålda
           </Radio>
         </RadioGroup>

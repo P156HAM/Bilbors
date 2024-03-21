@@ -19,6 +19,7 @@ export default {
         sm: "0.7rem",
         tiny: "0.8rem",
         base: "1rem",
+        md: "1.10rem",
         lg: "1.25rem",
         xl: "1.56rem",
         "2xl": "1.95rem",

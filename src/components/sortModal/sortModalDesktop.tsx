@@ -8,8 +8,8 @@ import {
 import { useState } from "react";
 import { SortType } from "../../constants/types";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import { sortBy } from "../../redux/actions/actions";
+import { RootState } from "../../redux/store";
 
 interface SortModalDesktopProps {}
 
@@ -19,10 +19,12 @@ function SortModalDesktop({}: SortModalDesktopProps) {
   const filterState = useSelector((state: RootState) => state.filter);
 
   const handleSortChange = (newSortType: SortType) => {
-    // Update the local state to reflect the new sort type
     setSortType(newSortType);
-    // Dispatch the sortBy action with the new sort type
-    dispatch(sortBy({ sortType: newSortType }));
+  };
+
+  const handleApplySort = () => {
+    dispatch(sortBy({ sortType }));
+    console.log("filterState.sort", filterState.sort);
   };
 
   return (
@@ -39,11 +41,18 @@ function SortModalDesktop({}: SortModalDesktopProps) {
             defaultValue={sortType}
             onValueChange={(value) => handleSortChange(value as SortType)}
           >
-            <Radio value="relevans">Relevans</Radio>
-            <Radio value="högstaPris">Högsta pris</Radio>
-            <Radio value="lägstaPris">Lägsta pris</Radio>
-            <Radio value="mestSålda">Mest sålda</Radio>
+            <Radio value="Relevans">Relevans</Radio>
+            <Radio value="Högsta Pris">Högsta pris</Radio>
+            <Radio value="Lägsta Pris">Lägsta pris</Radio>
+            <Radio value="Mest Sålda">Mest sålda</Radio>
           </RadioGroup>
+          <Divider className="my-2" />
+          <button
+            onClick={handleApplySort}
+            className="  bg-blue-500 text-white p-2 w-full"
+          >
+            Spara
+          </button>
         </AccordionItem>
       </Accordion>
       <Divider className="my-2" />

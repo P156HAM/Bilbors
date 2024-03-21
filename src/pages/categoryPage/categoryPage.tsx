@@ -10,7 +10,8 @@ import FilterModalDesktop from "../../components/filterModal/filterModalDesktop"
 import { getCategory, getProductsByCategory } from "../../hooks/hooks";
 import { ProductType } from "../../constants/schema";
 import toast from "react-hot-toast";
-import { Skeleton } from "@nextui-org/react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 interface urlParams {
   category?: string;
   subcategory?: string;
@@ -26,7 +27,8 @@ const CategoryPage = () => {
   );
   const [currentName, setCurrentName] = useState<string>("");
   const { category, subcategory, subsubcategory }: urlParams = useParams();
-
+  const filterState = useSelector((state: RootState) => state.filter);
+  console.log("filterState.sort", filterState.sort);
   const {
     data: categoryData,
     loading: categoryLoading,
@@ -62,6 +64,44 @@ const CategoryPage = () => {
   const applySort = (sort: any) => {
     // console.log("Applying sort:", sort);
   };
+
+  useEffect(() => {
+    if (!products) return;
+
+    let filteredProducts = products.getProductsByCategory?.products || [];
+    const companyFilter = filterState.company ?? "";
+    const priceRangeFilter = filterState.priceRange ?? {
+      min: 0,
+      max: Infinity,
+    };
+    // Apply filters based on the filter state
+    if (companyFilter) {
+      filteredProducts = filteredProducts.filter(
+        (product) =>
+          (product.seller?.toLowerCase() ?? "") === companyFilter.toLowerCase()
+      );
+    }
+
+    // Apply price range filter
+    filteredProducts = filteredProducts.filter((product) => {
+      const price = product.price ?? 0;
+      return price >= priceRangeFilter.min && price <= priceRangeFilter.max;
+    });
+
+    // Sort products, handling possible undefined prices by treating them as 0 or another default value
+    switch (filterState.sort) {
+      case "Lägsta Pris":
+        filteredProducts.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
+        break;
+      case "Högsta Pris":
+        filteredProducts.sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
+        break;
+      default:
+        break;
+    }
+
+    setDisplayProducts(filteredProducts);
+  }, [products, filterState]);
 
   useEffect(() => {
     const errorMessage = `Sorry, there was a problem fetching the data. Please try reloading the page, or contact support if the problem persists.`;

@@ -30,7 +30,7 @@ function FilterModal({
   );
 
   const filterState = useSelector((state: RootState) => state.filter);
-  const { min, max } = filterState.priceRange || { min: 0, max: 1000 };
+  const { min, max } = filterState.priceRange || { min: 0, max: 8000 };
   const dynamicHeight = useDynamicHeight(325);
 
   const handleApplyFilters = () => {
@@ -148,7 +148,7 @@ function FilterModal({
             label="Pris"
             step={1}
             minValue={0}
-            maxValue={1000}
+            maxValue={8000}
             value={[min, max]}
             formatOptions={{ style: "currency", currency: "SEK" }}
             className="custom-slider max-w-md min-h-14 py-2"

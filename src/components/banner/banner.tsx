@@ -6,7 +6,7 @@ function Banner() {
         <div className="text-start p-4">
           <h1 className="text-primary1 font-headline text-2xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-6xl">
             Gör skillnad med varje köp
-            <span className="border-secondary2  inline-block rounded-full border-8 size-2 ml-2"></span>
+            <span className="bg-secondary2 inline-block rounded-full min-h-2 max-h-8 min-w-2 max-w-8"></span>
           </h1>
 
           <p className="text-primary2 font-subHeadline text-tiny md:text-lg lg:text-2xl xl:text-2xl 2xl:text-2xl">

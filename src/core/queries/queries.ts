@@ -77,7 +77,10 @@ export const GET_ALL_PRODUCTS = gql`
         description
         price
         image
-        slug
+        slug {
+          name
+          category
+        }
       }
     }
   }
@@ -97,3 +100,69 @@ export const GET_PRODUCT_DETAILS_BY_ID = gql`
     }
   }
 `;
+
+import { useQuery } from "@apollo/client";
+import { Category, ProductType } from "../../constants/schema";
+
+export const useCachedSearch = (searchTerm: string) => {
+  const {
+    data: categoriesData,
+    loading: categoriesLoading,
+    error: categoriesError,
+  } = useQuery(GET_ALL_CATEGORIES);
+  const {
+    data: productsData,
+    loading: productsLoading,
+    error: productsError,
+  } = useQuery(GET_ALL_PRODUCTS);
+
+  // Assuming data is loaded and there's no error
+  if (
+    !categoriesLoading &&
+    !productsLoading &&
+    !categoriesError &&
+    !productsError
+  ) {
+    const searchLower = searchTerm.toLowerCase();
+
+    // Extend filtering to include subCategory and subSubCategory
+    const filteredCategories = categoriesData.getAllCategories.reduce(
+      (acc: Category[], category: Category) => {
+        // Check if category matches
+        if (category?.name?.toLowerCase().includes(searchLower)) {
+          acc.push(category);
+          return acc;
+        }
+
+        // Check if any subCategory matches
+        const matchingSubCategories = category?.subCategory?.filter(
+          (subCat) =>
+            subCat?.name?.toLowerCase().includes(searchLower) ||
+            subCat?.subSubCategory?.some((subSubCat) =>
+              subSubCat?.name?.toLowerCase().includes(searchLower)
+            )
+        );
+
+        if (matchingSubCategories && matchingSubCategories.length > 0) {
+          // Clone the category to not mutate the original data and assign the filtered subCategories
+          const categoryClone = {
+            ...category,
+            subCategory: matchingSubCategories,
+          };
+          acc.push(categoryClone);
+        }
+
+        return acc;
+      },
+      []
+    );
+    const filteredProducts = productsData.getAllProducts.products.filter(
+      (product: ProductType) =>
+        product?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    return { filteredCategories, filteredProducts };
+  }
+
+  return { filteredCategories: [], filteredProducts: [] };
+};
