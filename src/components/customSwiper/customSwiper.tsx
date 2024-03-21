@@ -55,12 +55,38 @@ const CustomSwiper = ({ products, itemsPerPage }: CustomSwiperProps) => {
             </div>
           ))}
       </div>
-      <div className="flex justify-center items-center space-x-2 my-2">
-        <button onClick={prevPage}>&lt;</button>
+      <div className="flex justify-center items-center space-x-2 my-2 font-headline text-lg">
+        <button onClick={prevPage}>
+          <span>
+            <svg
+              viewBox="0 0 24 24"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              focusable="false"
+              aria-hidden="true"
+            >
+              <path d="M15.84 21.36a.748.748 0 0 1-.53-.22l-7.55-7.55a2.252 2.252 0 0 1 0-3.18l7.55-7.551a.75.75 0 1 1 1.06 1.06l-7.55 7.55a.751.751 0 0 0 0 1.061l7.55 7.55a.75.75 0 0 1-.53 1.28z"></path>
+            </svg>
+          </span>
+        </button>
         <span>
-          Sida {currentPage + 1}/{totalPages}
+          Sida {currentPage + 1} av {totalPages}
         </span>
-        <button onClick={nextPage}>&gt;</button>
+        <button onClick={nextPage}>
+          <span>
+            <svg
+              viewBox="0 0 24 24"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              focusable="false"
+              aria-hidden="true"
+            >
+              <path d="M7.63 21.14a.75.75 0 0 1 0-1.06l7.55-7.55a.751.751 0 0 0 0-1.06L7.63 3.92a.75.75 0 1 1 1.06-1.061l7.55 7.55a2.252 2.252 0 0 1 0 3.182l-7.55 7.55a.748.748 0 0 1-1.06 0z"></path>
+            </svg>
+          </span>
+        </button>
       </div>
     </div>
   );

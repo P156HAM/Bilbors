@@ -1,5 +1,4 @@
-import { FilterState, SortType } from "../../constants/types";
-import { CartItem } from "../reducers/cartReducers";
+import { CartItem, FilterState, SortType } from "../../constants/types";
 
 export const addItem = (item: CartItem) => ({
   type: "ADD_TO_CART",

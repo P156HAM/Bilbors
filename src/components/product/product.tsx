@@ -67,7 +67,7 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
                 width="100%"
                 height="80%"
                 alt={item.name!}
-                className="max-h-[366px] min-h-[366px]"
+                className="max-h-[366px] min-h-[300px] z-10"
                 src={item.image!}
                 loading="lazy"
               />

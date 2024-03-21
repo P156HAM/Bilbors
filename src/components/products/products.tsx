@@ -9,7 +9,6 @@ import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
 import heart from "../../assets/icons/heart_line.svg";
 import { useNavigate } from "react-router-dom";
 import photo from "../../assets/images/gallery_img_1.png";
-import "./products.css";
 import { Maybe, ProductType } from "../../constants/schema";
 import CustomSwiper from "../customSwiper/customSwiper";
 

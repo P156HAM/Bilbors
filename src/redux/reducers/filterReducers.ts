@@ -4,7 +4,7 @@ const initialState: FilterState = {
   sort: "relevans",
   priceRange: {
     min: 0,
-    max: 1000,
+    max: 8000,
   },
   company: "",
 };

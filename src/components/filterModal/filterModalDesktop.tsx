@@ -7,11 +7,10 @@ import {
   Slider,
   SliderValue,
 } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FilterState } from "../../constants/types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateFilters } from "../../redux/actions/actions";
-import { RootState } from "../../redux/store";
 
 interface FilterModalDesktopProps {}
 
@@ -26,15 +25,10 @@ function FilterModalDesktop({}: FilterModalDesktopProps) {
   );
 
   const dispatch = useDispatch();
-  const filterState = useSelector((state: RootState) => state.filter);
 
   const handleApplyFilters = () => {
     dispatch(updateFilters(filters));
   };
-
-  useEffect(() => {
-    // console.log(filterState);
-  }, [filterState]);
 
   const handlePriceChange = (value: SliderValue) => {
     if (Array.isArray(value) && value.length === 2) {
@@ -67,8 +61,6 @@ function FilterModalDesktop({}: FilterModalDesktopProps) {
       ...prevFilters,
       company: selected.join(","),
     }));
-
-    handleApplyFilters();
   };
 
   const companies: string[] = [
@@ -102,19 +94,14 @@ function FilterModalDesktop({}: FilterModalDesktopProps) {
             label="Pris"
             step={1}
             minValue={0}
-            maxValue={1000}
-            defaultValue={[100, 500]}
+            maxValue={8000}
+            defaultValue={[100, 2000]}
             formatOptions={{ style: "currency", currency: "SEK" }}
             className="max-w-md min-h-14 py-2"
             onChange={handlePriceChange}
             onChangeEnd={handlePriceChange}
           />
-          <button
-            onClick={handleApplyFilters}
-            className="  bg-blue-500 text-white p-2 w-full"
-          >
-            Spara
-          </button>
+
           <Divider className="my-2" />
           {/* Company Filter */}
 
@@ -138,6 +125,13 @@ function FilterModalDesktop({}: FilterModalDesktopProps) {
               </CheckboxGroup>
             </AccordionItem>
           </Accordion>
+          <Divider className="my-2" />
+          <button
+            onClick={handleApplyFilters}
+            className="  bg-blue-500 text-white p-2 w-full"
+          >
+            Spara
+          </button>
         </AccordionItem>
       </Accordion>
     </aside>
