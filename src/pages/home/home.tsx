@@ -4,6 +4,7 @@ import HomeGallery from "../../components/homeGallery/homeGallery";
 import { Photo } from "../../constants/types";
 import arrow from "../../assets/icons/arrow_right_fill.svg";
 import RotatingSentence from "../../components/rotatingItem/rotatingItem";
+import SearchBar from "../../components/searchBar/searchBar";
 
 const photos: Photo[] = [
   {
@@ -27,6 +28,10 @@ function Home() {
   return (
     <main>
       <Banner />
+      <div className="lg:hidden xl:hidden 2xl:hidden">
+        <SearchBar />
+      </div>
+
       <CategorySlider />
       {/* Photo Gallery */}
       <div

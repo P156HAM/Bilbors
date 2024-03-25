@@ -1,4 +1,6 @@
 import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { Category, ProductType } from "../../constants/schema";
 
 export const GET_ALL_CATEGORIES = gql`
   query GetAllCategories {
@@ -43,7 +45,13 @@ export const GET_PRODUCTS_BY_CATEGORY = gql`
         name
         description
         price
-        image
+        image {
+          image_large
+          image_medium
+          image_original
+          image_small
+          image_xs
+        }
         category
         slug {
           name
@@ -76,7 +84,13 @@ export const GET_ALL_PRODUCTS = gql`
         name
         description
         price
-        image
+        image {
+          image_large
+          image_medium
+          image_original
+          image_small
+          image_xs
+        }
         slug {
           name
           category
@@ -94,15 +108,18 @@ export const GET_PRODUCT_DETAILS_BY_ID = gql`
       description
       price
       inventory
-      image
+      image {
+        image_large
+        image_medium
+        image_original
+        image_small
+        image_xs
+      }
       category
       seller
     }
   }
 `;
-
-import { useQuery } from "@apollo/client";
-import { Category, ProductType } from "../../constants/schema";
 
 export const useCachedSearch = (searchTerm: string) => {
   const {
@@ -116,7 +133,6 @@ export const useCachedSearch = (searchTerm: string) => {
     error: productsError,
   } = useQuery(GET_ALL_PRODUCTS);
 
-  // Assuming data is loaded and there's no error
   if (
     !categoriesLoading &&
     !productsLoading &&
@@ -144,7 +160,6 @@ export const useCachedSearch = (searchTerm: string) => {
         );
 
         if (matchingSubCategories && matchingSubCategories.length > 0) {
-          // Clone the category to not mutate the original data and assign the filtered subCategories
           const categoryClone = {
             ...category,
             subCategory: matchingSubCategories,
@@ -163,6 +178,7 @@ export const useCachedSearch = (searchTerm: string) => {
 
     return { filteredCategories, filteredProducts };
   }
-
+  console.log("loading: ", categoriesLoading, productsLoading);
+  console.log("error: ", categoriesError, productsError);
   return { filteredCategories: [], filteredProducts: [] };
 };

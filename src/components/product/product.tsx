@@ -67,8 +67,9 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
                 width="100%"
                 height="80%"
                 alt={item.name!}
-                className="max-h-[366px] min-h-[300px] z-10"
-                src={item.image!}
+                className="z-10"
+                src={item.image?.image_original!}
+                srcSet={`${item.image?.image_xs} 300w, ${item.image?.image_small} 400w, ${item.image?.image_medium} 500w`}
                 loading="lazy"
               />
             </CardBody>
@@ -100,7 +101,12 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
     case ProductStyle.CARTPRODUCT:
       return (
         <div className="gallery-product py-4 flex flex-row basis-full w-full h-44">
-          <img className="w-15 h-10 " src={item.image!} alt={item.name!} />
+          <img
+            className="w-15 h-10 "
+            src={item.image?.image_original!}
+            srcSet={`${item.image?.image_xs} 300w, ${item.image?.image_small} 400w, ${item.image?.image_medium} 500w`}
+            alt={item.name!}
+          />
           <section className="w-auto pl-2 h-full flex flex-col justify-between grow">
             <div className="flex flex-col w-auto flex-wrap ">
               <span className="font-semibold text-lg leading-3">
@@ -196,7 +202,11 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
     case ProductStyle.PRODUCTPAGEITEM:
       return (
         <div className="gallery-product">
-          <Image src={item.image!} alt={item.name!} />
+          <Image
+            src={item.image?.image_original!}
+            srcSet={`${item.image?.image_xs} 300w, ${item.image?.image_small} 400w, ${item.image?.image_medium} 500w`}
+            alt={item.name!}
+          />
           <div>{item.name}</div>
           <div>{item.price} kr</div>
           <button onClick={onAddToCart}>Add to Cart</button>
