@@ -97,7 +97,7 @@ function FilterModalDesktop({}: FilterModalDesktopProps) {
             maxValue={8000}
             defaultValue={[100, 2000]}
             formatOptions={{ style: "currency", currency: "SEK" }}
-            className="max-w-md min-h-14 py-2"
+            className="max-w-md min-h-14 py-2 overflow-hidden"
             onChange={handlePriceChange}
             onChangeEnd={handlePriceChange}
           />

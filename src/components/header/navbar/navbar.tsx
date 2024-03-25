@@ -80,7 +80,7 @@ function Navbar() {
             {/* Close Button */}
             <button
               onClick={() => setIsMobileMenuOpen(false)}
-              className="p-4 text-primary3 hover:text-secondary2"
+              className="p-4 text-primary3 hover:text-primary3"
             >
               <svg
                 className="w-6 h-6"

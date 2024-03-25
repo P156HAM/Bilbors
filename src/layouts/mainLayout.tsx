@@ -10,7 +10,7 @@ function MainLayout() {
     <>
       <Header />
       {location.pathname !== "/" && (
-        <div className=" lg:hidden xl:hidden 2xl:hidden">
+        <div className=" md:hidden lg:hidden xl:hidden 2xl:hidden">
           {" "}
           <SearchBar />{" "}
         </div>

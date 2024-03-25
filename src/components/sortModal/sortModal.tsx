@@ -1,9 +1,9 @@
 import { Divider, Radio, RadioGroup } from "@nextui-org/react";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { sortBy } from "../../redux/actions/actions";
 import { SortType } from "../../constants/types";
-import { RootState } from "../../redux/store";
+
 import DeactiveOverlay from "../deactiveOverlay/deactiveOverlay";
 import { useDynamicHeight } from "../../utils/useDynamicHeight";
 
@@ -15,7 +15,6 @@ interface SortModalProps {
 function SortModal({ isMobileSortOpen, setIsMobileSortOpen }: SortModalProps) {
   const [sortType, setSortType] = useState<SortType>("Relevans");
   const dispatch = useDispatch();
-  const filterState = useSelector((state: RootState) => state.filter);
   const dynamicHeight = useDynamicHeight(325);
 
   const handleSortChange = () => {
@@ -33,11 +32,11 @@ function SortModal({ isMobileSortOpen, setIsMobileSortOpen }: SortModalProps) {
       <aside
         className={`fixed inset-0 flex flex-col  transform ${
           isMobileSortOpen ? "translate-x-0 translate-y-40" : "translate-y-full"
-        } transition-transform duration-300 ease-in-out bg-secondary4 z-50 w-full lg:hidden xl:hidden 2xl:hidden`}
+        } transition-transform duration-300 ease-in-out bg-secondary3 z-50 w-full lg:hidden xl:hidden 2xl:hidden`}
       >
         {/* Header */}
-        <section className="sticky top-0 z-10 px-3 pt-3 pb-1 bg-secondary4 flex flex-row justify-between">
-          <h1 className="text-headline font-bold text-lg tracking-wide">
+        <section className="sticky top-0 z-10 px-3 pt-3 pb-1 bg-secondary3 flex flex-row justify-between">
+          <h1 className="text-headline text-primary3 font-bold text-lg tracking-wide">
             Sortera
           </h1>
           <section className="flex justify-end">
@@ -62,7 +61,7 @@ function SortModal({ isMobileSortOpen, setIsMobileSortOpen }: SortModalProps) {
             </button>
           </section>
         </section>
-        <Divider className="my-2" />
+        <Divider className="my-2 bg-white" />
 
         <RadioGroup
           label={sortType}
@@ -71,25 +70,37 @@ function SortModal({ isMobileSortOpen, setIsMobileSortOpen }: SortModalProps) {
           className="p-4 flex-1 overflow-y-auto p-4"
           style={{ maxHeight: dynamicHeight }}
           classNames={{
-            label: "pb-3 text-base font-bold font-subHeadline",
+            label: "pb-3 text-base text-primary3 font-bold font-subHeadline",
           }}
         >
-          <Radio classNames={{ label: "text-base" }} value="Relevans">
+          <Radio
+            classNames={{ label: "text-base text-primary3" }}
+            value="Relevans"
+          >
             Relevans
           </Radio>
-          <Radio classNames={{ label: "text-base" }} value="Högsta Pris">
+          <Radio
+            classNames={{ label: "text-base text-primary3" }}
+            value="Högsta Pris"
+          >
             Högsta pris
           </Radio>
-          <Radio classNames={{ label: "text-base" }} value="Lägsta Pris">
+          <Radio
+            classNames={{ label: "text-base text-primary3" }}
+            value="Lägsta Pris"
+          >
             Lägsta pris
           </Radio>
-          <Radio classNames={{ label: "text-base" }} value="Mest Sålda">
+          <Radio
+            classNames={{ label: "text-base text-primary3" }}
+            value="Mest Sålda"
+          >
             Mest sålda
           </Radio>
         </RadioGroup>
 
         <div className="p-4 sticky bottom-0 text-white">
-          <Divider className="my-2" />
+          <Divider className="my-2 bg-white" />
           <button
             onClick={handleSortChange}
             className="  bg-blue-500 text-white p-2 w-full"

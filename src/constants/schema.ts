@@ -1,4 +1,4 @@
-import { CartItemSlug } from "./types";
+import { CartItemSlug, ImageURL } from "./types";
 export type Maybe<T> = T | null;
 
 export type SubSubCategory = {
@@ -40,7 +40,7 @@ export type ProductType = {
   description?: Maybe<string>;
   price?: Maybe<number>;
   inventory?: Maybe<number>;
-  image?: Maybe<string>;
+  image?: Maybe<ImageURL>;
   category?: Maybe<string>;
   subCategory?: Maybe<string>;
   subSubCategory?: Maybe<string>;

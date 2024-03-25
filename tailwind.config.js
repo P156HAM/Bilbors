@@ -35,6 +35,10 @@ export default {
         128: "32rem",
         160: "40rem",
       },
+      width: {
+        128: "32rem",
+        160: "40rem",
+      },
       screens: {
         sd: { min: "200px", max: "639px" },
         // => @media (min-width: 300px and max-width: 639px) { ... }

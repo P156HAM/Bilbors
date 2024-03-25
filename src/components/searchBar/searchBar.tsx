@@ -1,20 +1,40 @@
 import { useState } from "react";
 import { useCachedSearch } from "../../core/queries/queries";
-import { Category, ProductType } from "../../constants/schema";
-import { Divider } from "@nextui-org/divider";
+import {
+  Category,
+  ProductType,
+  SubCategory,
+  SubSubCategory,
+} from "../../constants/schema";
+import { useNavigate } from "react-router";
 
 const SearchBar = () => {
   const [query, setQuery] = useState("");
   const { filteredCategories, filteredProducts } = useCachedSearch(query);
+  const navigate = useNavigate();
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(
-      "filteredCategories",
-      filteredCategories,
-      "filteredProducts",
-      filteredProducts
-    );
+    navigate(`/search?query=${encodeURIComponent(query)}`);
+    setQuery("");
+  };
+
+  const handleNavigate = (
+    param: Category | SubCategory | SubSubCategory | ProductType
+  ) => {
+    if (param.__typename === "Product") {
+      navigate(`/${param.slug?.category}/product/${param.slug?.name}`, {
+        state: param.id,
+      });
+    } else {
+      navigate(`/${param.slug}`);
+      // if(param.__typename === 'Category') {
+      //   navigate(`/${param.slug}`)
+      // } else if(param.__typename === 'SubCategory') {
+      //   navigate(`/parentcategory/${param.slug}`)
+      // }
+    }
+    setQuery("");
   };
 
   return (
@@ -58,6 +78,9 @@ const SearchBar = () => {
           {filteredCategories.slice(0, 2).map((category: Category) => (
             <li
               key={category.slug}
+              onClick={() => {
+                handleNavigate(category);
+              }}
               className="p-2 hover:bg-gray-100 flex flex-row gap-2 text-md font-headline cursor-pointer text-secondary1"
             >
               <span>
@@ -82,6 +105,9 @@ const SearchBar = () => {
           {filteredProducts.slice(0, 6).map((product: ProductType) => (
             <li
               key={product.id}
+              onClick={() => {
+                handleNavigate(product);
+              }}
               className="p-2 hover:bg-gray-100 flex flex-row gap-2 text-md font-headline cursor-pointer text-secondary1"
             >
               <span>

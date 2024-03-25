@@ -32,6 +32,13 @@ export interface CartItemSlug {
   subCategory?: Maybe<string>;
   subSubCategory?: Maybe<string>;
 }
+export interface ImageURL {
+  image_large?: Maybe<string>;
+  image_medium?: Maybe<string>;
+  image_original?: Maybe<string>;
+  image_small?: Maybe<string>;
+  image_xs?: Maybe<string>;
+}
 
 export interface CartItem {
   __typename?: "Product";
@@ -40,7 +47,7 @@ export interface CartItem {
   description?: Maybe<string>;
   price?: Maybe<number>;
   inventory?: Maybe<number>;
-  image?: Maybe<string>;
+  image?: Maybe<ImageURL>;
   category?: Maybe<string>;
   subCategory?: Maybe<string>;
   subSubCategory?: Maybe<string>;

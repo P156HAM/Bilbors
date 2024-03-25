@@ -7,6 +7,7 @@ import Home from "../../pages/home/home";
 import CategoryPage from "../../pages/categoryPage/categoryPage.tsx";
 import NotFoundPage from "../../pages/notFoundPage/notFoundPage.tsx";
 import ProductPage from "../../pages/productPage/productPage.tsx";
+import SearchResults from "../../pages/searchPage/searchPage.tsx";
 
 function AppRoutes() {
   return (
@@ -26,7 +27,7 @@ function AppRoutes() {
               path="/:category/product/:productSlug"
               element={<ProductPage />}
             />
-
+            <Route path="/search" element={<SearchResults />} />
             {/* Protected routes */}
             <Route element={<ProtectedRoute />}>
               {/* <Route path="/profile" element={<Profile />} /> */}
