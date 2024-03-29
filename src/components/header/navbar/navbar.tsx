@@ -48,7 +48,6 @@ function Navbar() {
               >
                 Auktioner
               </a>
-              {/* Add more items as needed */}
             </div>
           </section>
 

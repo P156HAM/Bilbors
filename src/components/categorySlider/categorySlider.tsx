@@ -53,7 +53,7 @@ function CategorySlider() {
               <div className="h-24 w-24 bg-secondary3 flex items-center justify-center mb-2 focus:shadow-outline hover:border-1 hover:border-primary2">
                 <img
                   src={categories[0].iconPath} //! HÅRD KODAD
-                  alt={category.name}
+                  alt={category.name!}
                   className="h-11 w-11"
                 />
               </div>
