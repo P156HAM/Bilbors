@@ -37,7 +37,9 @@ function ProductPage() {
       <section className="grid grid-rows-[400px_minmax(100px,_1fr_1fr)] grid-cols-2 w-full">
         <div className="flex justify-center items-center col-span-2 bg-secondary3 lg:col-span-1 xl:col-span-1 2xl:col-span-1">
           <img
-            src={photo}
+            src={product?.image?.image_original!}
+            srcSet={`${product?.image?.image_xs} 300w, ${product?.image?.image_small} 400w, ${product?.image?.image_medium} 500w`}
+            sizes="(max-width: 639px) calc(33vw - 10px), (max-width: 900px) calc(25vw - 28px), calc(50vw - 30px)"
             alt="Blue Sound Speaker "
             className="bg-clip-content bg-origin-content bg-auto bg-no-repeat bg-center max-h-[25rem]"
           />

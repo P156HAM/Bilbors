@@ -16,9 +16,9 @@ const CustomSwiper = ({ products, itemsPerPage }: CustomSwiperProps) => {
   const totalPages = products ? Math.ceil(products.length / itemsPerPage) : 0;
 
   // Function to handle page change
-  const goToPage = (pageIndex: number) => {
-    setCurrentPage(pageIndex);
-  };
+  // const goToPage = (pageIndex: number) => {
+  //   setCurrentPage(pageIndex);
+  // };
 
   const handleAddProduct = (product: CartItem) => {
     dispatch(addItem(product));
