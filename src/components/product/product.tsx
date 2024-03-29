@@ -37,7 +37,7 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
     case ProductStyle.GALLERYPRODUCT:
       return (
         <div className="relative p-2">
-          <div className="z-30 absolute w-9 h-9 top-8 right-2 flex items-center justify-center bg-opacity-60 bg-secondary3 hover:bg-opacity-90 cursor-pointer">
+          <div className="z-30 absolute p-1 top-8 right-2 flex items-center justify-center bg-opacity-60 bg-secondary3 hover:bg-opacity-90 cursor-pointer">
             <Image
               radius="none"
               className=""
@@ -57,19 +57,20 @@ function Product({ item, handleAddProduct, style }: ProductProps) {
             onPress={() => navigateProduct(item)}
             className=""
             classNames={{
-              body: "w-full p-0",
+              body: "w-full p-0 ",
             }}
           >
-            <CardBody className="">
+            <CardBody className="object-cover">
               <Image
                 shadow="sm"
                 radius="none"
                 width="100%"
-                height="80%"
+                height="100%"
                 alt={item.name!}
-                className="z-10"
+                className="z-10 min-h-[339px] max-h-[339px] sd:min-h-[calc(35vw-10px)] sd:max-h-[calc(50vw-10px)]"
                 src={item.image?.image_original!}
                 srcSet={`${item.image?.image_xs} 300w, ${item.image?.image_small} 400w, ${item.image?.image_medium} 500w`}
+                sizes="(max-width: 639px) calc(33vw - 10px), (max-width: 900px) calc(25vw - 28px), calc(50vw - 30px)"
                 loading="lazy"
               />
             </CardBody>

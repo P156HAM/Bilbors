@@ -109,10 +109,10 @@ function FilterModal({
           isMobileFilterOpen
             ? "translate-x-0 translate-y-40"
             : "translate-y-full"
-        } transition-transform duration-300 ease-in-out bg-secondary3 z-50 w-full lg:hidden xl:hidden 2xl:hidden`}
+        } transition-transform duration-300 ease-in-out bg-secondary4 z-50 w-full lg:hidden xl:hidden 2xl:hidden`}
       >
         {/* Header */}
-        <section className="sticky top-0 z-10 px-3 pt-3 pb-0 bg-secondary3 flex flex-row justify-between">
+        <section className="sticky top-0 z-10 px-3 pt-3 pb-0 bg-secondary4 flex flex-row justify-between">
           <h1 className="text-headline text-primary3 font-bold text-lg tracking-wide">
             Filtrera
           </h1>
